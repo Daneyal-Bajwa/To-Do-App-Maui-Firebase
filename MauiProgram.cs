@@ -23,3 +23,9 @@ namespace MauiApp1
         }
     }
 }
+// conditional compile
+// #if ANDROID
+//      var button = new Android.Widget.Button();
+// #elif
+//      var button = new UIKit.UIButton();
+// #endif
