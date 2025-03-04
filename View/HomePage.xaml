@@ -5,7 +5,7 @@
              xmlns:viewModel="clr-namespace:MauiApp1.ViewModel"
              x:Class="MauiApp1.View.HomePage"
              x:DataType="viewModel:HomeViewModel"
-             Title="HomePage">
+             Title="Home">
     <ContentPage.BindingContext>
         <viewModel:HomeViewModel />
     </ContentPage.BindingContext>
