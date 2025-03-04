@@ -1,4 +1,7 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using CommunityToolkit.Maui;
+using MauiApp1.Services;
+using MauiApp1.View;
+using Microsoft.Extensions.Logging;
 
 namespace MauiApp1
 {
@@ -9,14 +12,29 @@ namespace MauiApp1
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
+                // Initialize the .NET MAUI Community Toolkit by adding the below line of code
+                .UseMauiCommunityToolkit()
+                // After initializing the .NET MAUI Community Toolkit, optionally add additional fonts
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
 
+            builder.Services.AddSingleton<HomePage>();
+            builder.Services.AddSingleton<HomeViewModel>();
+
+            // Register SidebarService as a singleton
+            builder.Services.AddSingleton<SidebarService>();
+
+
+            builder.Services.AddTransient<DetailsPage>();
+            builder.Services.AddTransient<DetailsViewModel>();
+
+
 #if DEBUG
-    		builder.Logging.AddDebug();
+            builder.Logging.AddDebug();
+
 #endif
 
             return builder.Build();
