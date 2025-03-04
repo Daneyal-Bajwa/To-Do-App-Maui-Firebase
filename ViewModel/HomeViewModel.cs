@@ -9,7 +9,7 @@ using MauiApp1.Services;
 
 namespace MauiApp1.ViewModel
 {
-    public partial class HomeViewModel : ObservableObject
+    public partial class HomeViewModel : ViewModelBase
     {
         // adding service so state of sidebar is persistent
         private readonly ISidebarService sidebarService;
@@ -50,13 +50,13 @@ namespace MauiApp1.ViewModel
         }
 
         [RelayCommand]
-        private void Navigate(string pageName)
+        public override void Navigate(string pageName)
         {
             navigationService.Navigate(pageName);
         }
 
         [RelayCommand]
-        private void ToggleSidebar()
+        public override void ToggleSidebar()
         {
             sidebarService.ToggleSidebar(Sidebar);
         }

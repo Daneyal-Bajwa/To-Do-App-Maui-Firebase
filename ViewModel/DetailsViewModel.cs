@@ -7,11 +7,12 @@ using System.Threading.Tasks;
 
 namespace MauiApp1.ViewModel
 {
-    public partial class DetailsViewModel : ObservableObject
+    public partial class DetailsViewModel : ViewModelBase
     {
         // adding service so state of sidebar is persistent
         private readonly ISidebarService sidebarService;
         private readonly INavigationService navigationService;
+
         public VerticalStackLayout Sidebar { get; set; }
 
         public DetailsViewModel()
@@ -21,13 +22,13 @@ namespace MauiApp1.ViewModel
         }
 
         [RelayCommand]
-        private void Navigate(string pageName)
+        public override void Navigate(string pageName)
         {
             navigationService.Navigate(pageName);
         }
 
         [RelayCommand]
-        private void ToggleSidebar()
+        public override void ToggleSidebar()
         {
             sidebarService.ToggleSidebar(Sidebar);
         }

@@ -1,9 +1,14 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace MauiApp1.ViewModel;
-public partial class ViewModelBase : ObservableObject
+namespace MauiApp1.ViewModel
 {
-    public virtual void Initialize()
+    public abstract class ViewModelBase : ObservableObject
     {
+        // virtual functions can be overrridden in inherited classes
+        public virtual void Initialize() { }
+        // abstract functions must be implemented by inherited classes
+        public abstract void Navigate(string pageName);
+        public abstract void ToggleSidebar();
+
     }
 }
