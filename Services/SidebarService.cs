@@ -10,7 +10,6 @@ namespace MauiApp1.Services
     {
         private bool isSidebarExpanded = true;
 
-
         public async void ToggleSidebar(VerticalStackLayout Sidebar)
         {
             if (Sidebar == null)

@@ -6,7 +6,19 @@ using System.Threading.Tasks;
 
 namespace MauiApp1.Services
 {
-    class NavigationService
+    public class NavigationService : INavigationService
     {
+        public async void Navigate(string pageName)
+        {
+            switch (pageName)
+            {
+                case "HomePage":
+                    await Shell.Current.GoToAsync("//HomePage");
+                    break;
+                case "DetailsPage":
+                    await Shell.Current.GoToAsync(nameof(View.DetailsPage));
+                    break;
+            }
+        }
     }
 }

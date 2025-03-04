@@ -11,25 +11,19 @@ namespace MauiApp1.ViewModel
     {
         // adding service so state of sidebar is persistent
         private readonly ISidebarService sidebarService;
+        private readonly INavigationService navigationService;
         public VerticalStackLayout Sidebar { get; set; }
 
         public DetailsViewModel()
         {
             sidebarService = new SidebarService();
+            navigationService = new NavigationService();
         }
 
         [RelayCommand]
-        private async void Navigate(string pageName)
+        private void Navigate(string pageName)
         {
-            switch (pageName)
-            {
-                case "HomePage":
-                    await Shell.Current.GoToAsync("//HomePage");
-                    break;
-                case "DetailsPage":
-                    await Shell.Current.GoToAsync(nameof(View.DetailsPage));
-                    break;
-            }
+            navigationService.Navigate(pageName);
         }
 
         [RelayCommand]
