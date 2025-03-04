@@ -24,12 +24,11 @@ namespace MauiApp1
             builder.Services.AddSingleton<HomePage>();
             builder.Services.AddSingleton<HomeViewModel>();
 
-            // Register SidebarService as a singleton
-            builder.Services.AddSingleton<SidebarService>();
-
-
             builder.Services.AddTransient<DetailsPage>();
             builder.Services.AddTransient<DetailsViewModel>();
+
+            builder.Services.AddTransient<CalendarPage>();
+            builder.Services.AddTransient<CalendarViewModel>();
 
 
 #if DEBUG

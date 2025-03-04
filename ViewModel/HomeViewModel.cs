@@ -11,9 +11,6 @@ namespace MauiApp1.ViewModel
 {
     public partial class HomeViewModel : ViewModelBase
     {
-        // adding service so state of sidebar is persistent
-        private readonly ISidebarService sidebarService;
-        private readonly INavigationService navigationService;
         
         [ObservableProperty]
         private string _text = "";
@@ -21,12 +18,8 @@ namespace MauiApp1.ViewModel
         [ObservableProperty]
         public ObservableCollection<string> _items = new();
 
-        public VerticalStackLayout Sidebar { get; set; }
-
         public HomeViewModel()
         {
-            sidebarService = new SidebarService();
-            navigationService = new NavigationService();
             Items = new ObservableCollection<string>();
         }
 
@@ -47,18 +40,6 @@ namespace MauiApp1.ViewModel
             {
                 Items.Remove(item);
             }
-        }
-
-        [RelayCommand]
-        public override void Navigate(string pageName)
-        {
-            navigationService.Navigate(pageName);
-        }
-
-        [RelayCommand]
-        public override void ToggleSidebar()
-        {
-            sidebarService.ToggleSidebar(Sidebar);
         }
     }
 }

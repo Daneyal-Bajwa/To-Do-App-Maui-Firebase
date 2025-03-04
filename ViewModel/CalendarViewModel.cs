@@ -7,11 +7,12 @@ using System.Threading.Tasks;
 
 namespace MauiApp1.ViewModel
 {
-    public partial class DetailsViewModel : ViewModelBase
+    public partial class CalendarViewModel : ViewModelBase
     {
-        public DetailsViewModel()
-        {
 
+        public CalendarViewModel()
+        {
         }
+
     }
 }

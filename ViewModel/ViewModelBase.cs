@@ -7,8 +7,7 @@ namespace MauiApp1.ViewModel
         // virtual functions can be overrridden in inherited classes
         public virtual void Initialize() { }
         // abstract functions must be implemented by inherited classes
-        public abstract void Navigate(string pageName);
-        public abstract void ToggleSidebar();
+        // public abstract void Navigate(string pageName);
 
     }
 }

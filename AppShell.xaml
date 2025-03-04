@@ -24,10 +24,31 @@
         </ResourceDictionary>
     </Shell.Resources>
 
-    <ShellContent
-        Shell.NavBarIsVisible="true"
-        Title="Home"
-        ContentTemplate="{DataTemplate local:View.HomePage}"
-        Route="HomePage" />
+    <TabBar>
+        <Tab Title="Home" Icon="appicon.png" >
+            <ShellContent
+                Shell.NavBarIsVisible="true"
+                Title="Home"
+                ContentTemplate="{DataTemplate local:View.HomePage}"
+                Route="HomePage" />
+        </Tab>
+        <Tab Title="Details" Icon="appicon.png" >
+            <ShellContent
+                Shell.NavBarIsVisible="true"
+                Title="Details"
+                ContentTemplate="{DataTemplate local:View.DetailsPage}"
+                Route="DetailsPage" />
+        </Tab>
+        <Tab Title="Calendar" Icon="appicon.png" >
+            <ShellContent
+                Shell.NavBarIsVisible="true"
+                Title="Calendar"
+                ContentTemplate="{DataTemplate local:View.CalendarPage}"
+                Route="CalendarPage" />
+        </Tab>
+
+    </TabBar>
+
+    
 
 </Shell>

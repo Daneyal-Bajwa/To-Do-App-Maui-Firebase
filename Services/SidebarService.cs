@@ -21,16 +21,15 @@ namespace MauiApp1.Services
 
             if (isSidebarExpanded)
             {
-                // Minimise the sidebar
+                // Minimize the sidebar with fade-out effect
                 await Sidebar.TranslateTo(-Sidebar.Width, 0, 500, Easing.Linear);
                 await Sidebar.ScaleTo(0, 500, Easing.Linear);
                 isSidebarExpanded = false;
             }
             else
             {
-                // Expand the sidebar
-                await Sidebar.TranslateTo(0, 0, 500, Easing.Linear);
                 await Sidebar.ScaleTo(1, 500, Easing.Linear);
+                await Sidebar.TranslateTo(0, 0, 500, Easing.Linear);
                 isSidebarExpanded = true;
             }
         }
