@@ -4,11 +4,33 @@
              xmlns:viewModel="clr-namespace:MauiApp1.ViewModel"
              xmlns:controls="clr-namespace:MauiApp1.Controls"
              x:Class="MauiApp1.View.CalendarPage"
+             xmlns:cal="clr-namespace:Plugin.Maui.Calendar.Controls;assembly=Plugin.Maui.Calendar"
+             x:DataType="viewModel:CalendarViewModel"
              Title="CalendarPage">
     <ContentPage.BindingContext>
         <viewModel:CalendarViewModel />
     </ContentPage.BindingContext>
     <ContentView>
-        <controls:CalendarView Tasks="{Binding Tasks}" />
+         <!-- <controls:CalendarView Tasks="{Binding Tasks}" /> -->
+        <cal:Calendar
+                Events="{Binding Events}"
+                EventsScrollViewVisible="True"
+            EventIndicatorSelectedColor="Red">
+        
+            <cal:Calendar.EventTemplate>
+                <DataTemplate>
+                    <StackLayout Padding="15,0,0,0">
+                        <Label
+                            Text="{Binding Name}"
+                            FontAttributes="Bold"
+                            FontSize="Medium" />
+                        <Label
+                            Text="{Binding Description}"
+                            FontSize="Small"
+                            LineBreakMode="WordWrap" />
+                    </StackLayout>
+                </DataTemplate>
+            </cal:Calendar.EventTemplate>
+        </cal:Calendar> 
     </ContentView>
 </ContentPage>
