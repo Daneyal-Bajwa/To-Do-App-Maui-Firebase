@@ -5,32 +5,77 @@
              xmlns:controls="clr-namespace:MauiApp1.Controls"
              x:Class="MauiApp1.View.CalendarPage"
              xmlns:cal="clr-namespace:Plugin.Maui.Calendar.Controls;assembly=Plugin.Maui.Calendar"
-             x:DataType="viewModel:CalendarViewModel"
-             Title="CalendarPage">
+             x:DataType="viewModel:CalendarViewModel">
     <ContentPage.BindingContext>
         <viewModel:CalendarViewModel />
     </ContentPage.BindingContext>
     <ContentView>
-         <!-- <controls:CalendarView Tasks="{Binding Tasks}" /> -->
-        <cal:Calendar
+        <!-- <controls:CalendarView Tasks="{Binding Tasks}" /> -->
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <Button Grid.Row="0" Grid.Column="1" Padding="10,10" Margin="10,10" 
+                    Text="Add Task" FontAttributes="Bold" 
+                    BorderWidth="1"
+                    BorderColor="{StaticResource Accent2}"
+                    TextColor="{StaticResource DarkBackground}" 
+                    BackgroundColor="{StaticResource Accent}"
+                    Command="{Binding AddTaskPressedCommand}">
+                <VisualStateManager.VisualStateGroups>
+                    <VisualStateGroup x:Name="CommonStates">
+                        <VisualState x:Name="Normal">
+                            <VisualState.Setters>
+                                <Setter Property="BackgroundColor" Value="{StaticResource Accent}" />
+                            </VisualState.Setters>
+                            <VisualState.StateTriggers>
+                                <StateTrigger IsActive="True" />
+                            </VisualState.StateTriggers>
+                        </VisualState>
+                        <VisualState x:Name="Pressed">
+                            <VisualState.Setters>
+                                <Setter Property="BackgroundColor" Value="{StaticResource PrimaryDark}" />
+                            </VisualState.Setters>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateManager.VisualStateGroups>
+            </Button>
+            <cal:Calendar
                 Events="{Binding Events}"
                 EventsScrollViewVisible="True"
-            EventIndicatorSelectedColor="Red">
-        
-            <cal:Calendar.EventTemplate>
-                <DataTemplate>
-                    <StackLayout Padding="15,0,0,0">
-                        <Label
+                EventIndicatorSelectedColor="Red"
+                Grid.Row="1"
+                Grid.ColumnSpan="2">
+
+                <cal:Calendar.EventTemplate>
+                    <DataTemplate>
+                        <StackLayout Padding="15,0,0,0" Margin="2" BackgroundColor="AliceBlue">
+                            <Label
                             Text="{Binding Name}"
                             FontAttributes="Bold"
-                            FontSize="Medium" />
-                        <Label
+                            FontSize="Medium"
+                            TextColor="Black" />
+                            <Label
                             Text="{Binding Description}"
                             FontSize="Small"
+                            TextColor="Black"
                             LineBreakMode="WordWrap" />
-                    </StackLayout>
-                </DataTemplate>
-            </cal:Calendar.EventTemplate>
-        </cal:Calendar> 
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewModel:CalendarViewModel}}, Path=EventPressedCommand}"
+                                                      CommandParameter="{Binding .}"/>
+                                <SwipeGestureRecognizer Direction="Right" Command="{Binding Source={RelativeSource AncestorType={x:Type viewModel:CalendarViewModel}}, Path=EventSwipedCommand}"
+                                                      CommandParameter="{Binding .}"/>
+                            </StackLayout.GestureRecognizers>
+                        </StackLayout>
+                    </DataTemplate>
+                </cal:Calendar.EventTemplate>
+            </cal:Calendar>
+        </Grid>
     </ContentView>
 </ContentPage>

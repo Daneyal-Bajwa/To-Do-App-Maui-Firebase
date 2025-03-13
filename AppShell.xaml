@@ -4,7 +4,16 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:MauiApp1"
-    Shell.FlyoutBehavior="Disabled"
+    Shell.FlyoutBehavior="Locked"
+    
+    Shell.ForegroundColor="{StaticResource LightBackground}"
+    Shell.FlyoutBackdrop="{StaticResource LightBackground}"
+    Shell.FlyoutBackgroundColor="{StaticResource PrimaryDark}"
+    Shell.FlyoutWidth="150"
+    Shell.TabBarTitleColor="{StaticResource Accent}"
+    Shell.TabBarForegroundColor="{StaticResource Primary}"
+    Shell.TabBarUnselectedColor="White"
+    Shell.TabBarBackgroundColor="Gray"
     Title="MauiApp1">
 
     <Shell.Resources>
@@ -24,31 +33,55 @@
         </ResourceDictionary>
     </Shell.Resources>
 
-    <TabBar>
-        <Tab Title="Home" Icon="appicon.png" >
+
+
+    <FlyoutItem Title="Home" 
+                FlyoutIcon="home.png">
+        <ShellContent
+            Shell.NavBarIsVisible="False"
+            Title="Home"
+            ContentTemplate="{DataTemplate local:View.HomePage}"
+            Route="HomePage" />
+    </FlyoutItem>
+    <FlyoutItem Title="Details" Icon="tasks.png">
+        <ShellContent
+            Shell.NavBarIsVisible="False"
+            Title="Details"
+            ContentTemplate="{DataTemplate local:View.DetailsPage}"
+            Route="DetailsPage" />
+    </FlyoutItem>
+    <FlyoutItem Title="Calendar" Icon="calendar.png">
+        <ShellContent
+            Shell.NavBarIsVisible="False"
+            Title="Calendar"
+            ContentTemplate="{DataTemplate local:View.CalendarPage}"
+            Route="CalendarPage" />
+    </FlyoutItem>
+
+
+    <TabBar x:Name="PhoneTabs">
+
+        <Tab Title="Home" Icon="home.png">
             <ShellContent
-                Shell.NavBarIsVisible="true"
+                Shell.NavBarIsVisible="False"
                 Title="Home"
                 ContentTemplate="{DataTemplate local:View.HomePage}"
                 Route="HomePage" />
         </Tab>
-        <Tab Title="Details" Icon="appicon.png" >
+        <Tab Title="Details" Icon="tasks.png">
             <ShellContent
-                Shell.NavBarIsVisible="true"
+                Shell.NavBarIsVisible="False"
                 Title="Details"
                 ContentTemplate="{DataTemplate local:View.DetailsPage}"
                 Route="DetailsPage" />
         </Tab>
-        <Tab Title="Calendar" Icon="appicon.png" >
+        <Tab Title="Calendar" Icon="calendar.png" >
             <ShellContent
-                Shell.NavBarIsVisible="true"
+                Shell.NavBarIsVisible="False"
                 Title="Calendar"
                 ContentTemplate="{DataTemplate local:View.CalendarPage}"
                 Route="CalendarPage" />
         </Tab>
-
     </TabBar>
-
-    
 
 </Shell>
