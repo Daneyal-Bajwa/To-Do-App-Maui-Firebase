@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MauiApp1.ViewModel
 {
-    public class MonkeyDetailsViewModel : BaseViewModel
+    public class MonkeyDetailsViewModel : ViewModelBase
     {
     }
 }

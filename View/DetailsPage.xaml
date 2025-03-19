@@ -12,6 +12,30 @@
     </ContentPage.BindingContext>
 
     <ContentView>
-        
+        <Button Padding="10,5" Margin="10,10,20,0" 
+            Text="Add Task" FontAttributes="Bold" 
+            BorderWidth="1"
+            BorderColor="{StaticResource Accent2}"
+            TextColor="{StaticResource DarkBackground}" 
+            BackgroundColor="{StaticResource Accent}"
+            Command="{Binding AddTaskCommand}">
+            <VisualStateManager.VisualStateGroups>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal">
+                        <VisualState.Setters>
+                            <Setter Property="BackgroundColor" Value="{StaticResource Accent}" />
+                        </VisualState.Setters>
+                        <VisualState.StateTriggers>
+                            <StateTrigger IsActive="True" />
+                        </VisualState.StateTriggers>
+                    </VisualState>
+                    <VisualState x:Name="Pressed">
+                        <VisualState.Setters>
+                            <Setter Property="BackgroundColor" Value="{StaticResource PrimaryDark}" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+        </Button>
     </ContentView>
 </ContentPage>

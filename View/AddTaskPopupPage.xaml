@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mct:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+           xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+           x:Class="MauiApp1.View.AddTaskPopupPage"
+           xmlns:mct="clr-namespace:CommunityToolkit.Maui.Views;assembly=CommunityToolkit.Maui"
+           CanBeDismissedByTappingOutsideOfPopup="False">
+    <ContentView Margin="10">
+        <ScrollView>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Entry 
+                Grid.Row="0"
+                Placeholder="Task Name (Required)"
+                Text="{Binding TempItem.Name}"
+                FontSize="30"
+                Margin="10"
+                VerticalOptions="Start" 
+                HorizontalOptions="Start"
+                FontAttributes="Bold" />
+                <Button
+                Grid.Row="0"
+                HorizontalOptions="End"
+                BackgroundColor="Transparent"
+                Text="X"
+                FontSize="30"
+                TextColor="{StaticResource PrimaryDark}"
+                Command="{Binding SimpleCloseCommand}" />
+
+                <HorizontalStackLayout Grid.Row="1" Margin="10">
+                    <DatePicker Date="{Binding TempItem.DateTime}" />
+                    <TimePicker Time="{Binding TempItem.DateTime.TimeOfDay}" />
+                </HorizontalStackLayout>
+
+                <HorizontalStackLayout Grid.Row="2">
+                    <Label Text="Repeating" Margin="10" />
+                    <CheckBox IsChecked="{Binding IsDropdownVisible}" />
+                    <ScrollView IsVisible="{Binding IsDropdownVisible}">
+                        <!-- <Frame HasShadow="True" BorderColor="Gray" Padding="0" IsVisible="{Binding IsDropdownVisible}"> -->
+                        <CollectionView ItemsSource="{Binding Options}" SelectionMode="Single">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <StackLayout>
+                                        <Button Text="Select"  />
+                                    </StackLayout>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+
+                    </ScrollView>
+                </HorizontalStackLayout>
+
+                <Label Grid.Row="3" Text="Description" Margin="10" />
+
+                <ScrollView Grid.Row="4" Padding="4" VerticalOptions="StartAndExpand">
+                    <Editor InputTransparent="False" Text="{Binding TempItem.Description}" Placeholder="Task Description" VerticalOptions="Center" TextColor="Black" />
+                </ScrollView>
+
+                <Grid Grid.Row="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Button Grid.Column="0" MinimumWidthRequest="100" Margin="8" Text="CANCEL" BackgroundColor="PaleVioletRed" Command="{Binding SimpleCloseCommand}" />
+                    <Button Grid.Column="2" MinimumWidthRequest="100" Margin="8" Text="CREATE" BackgroundColor="PaleVioletRed" Command="{Binding CreateTaskCommand}" />
+                </Grid>
+            </Grid>
+        </ScrollView>
+    </ContentView>
+</mct:Popup>
