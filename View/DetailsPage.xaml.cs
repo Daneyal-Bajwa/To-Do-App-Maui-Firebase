@@ -8,4 +8,9 @@ public partial class DetailsPage : ContentPage
         InitializeComponent();
     }
 
+    protected override void OnNavigatedTo(NavigatedToEventArgs args)
+    {
+        base.OnNavigatedTo(args);
+        InitializeComponent();
+    }
 }

@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Maui.Views;
+using MauiApp1.Scripts;
 using MauiApp1.Services;
 using MauiApp1.View;
 using Plugin.Maui.Calendar.Models;
@@ -12,31 +13,50 @@ namespace MauiApp1.ViewModel
 {
     public partial class DetailsViewModel : ViewModelBase
     {
-        [ObservableProperty] string title;
-
-        public EventModel TempItem2 { get; private set; }
-
-        private AddTaskPopupPage addTaskPopupPage;
-        private readonly UserData database;
         public EventCollection Events => EventService.Instance.Events;
+
+        private readonly CreateEventBtn _createEventBtn;
+        private readonly ClickEventBtn _clickEventBtn;
+
+        private readonly UserData database;
+
+
+        // not necessary logically, but program doesn't run without it
+        [ObservableProperty] private string _key;
+        [ObservableProperty] private string _value;
+
+        [ObservableProperty] private string _name;
+        [ObservableProperty] private string _description;
+
 
         public DetailsViewModel()
         {
             database = new UserData();
-            database.AddEvent(new EventModel(title, "test description", DateTime.Now));
+            // database.AddEvent(new EventModel(title, "test description", DateTime.Now));
+
+            _createEventBtn = new CreateEventBtn();
+            _clickEventBtn = new ClickEventBtn();
+
+            foreach (var x in Events)
+            {
+                foreach (EventModel y in x.Value)
+                {
+                    Console.WriteLine(y.Name);
+                }
+            }
 
         }
 
         [RelayCommand]
         public void AddTask()
         {
-            TempItem2 = new EventModel("", "", DateTime.Now);
-            addTaskPopupPage = new AddTaskPopupPage();
-            Application.Current.MainPage.ShowPopup(addTaskPopupPage);
+            _createEventBtn.ShowPopup();
+        }
 
-            // _addTaskPress.AddTask();
-
-
+        [RelayCommand]
+        public void EventPressed(EventModel e)
+        {
+            _clickEventBtn.ShowPopup(ref e);
         }
     }
 }

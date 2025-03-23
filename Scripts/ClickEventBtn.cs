@@ -34,38 +34,12 @@ namespace MauiApp1.Scripts
         // need to delete item from the list
         public void Delete(EventModel task)
         {
-            try
-            {
-                // convert events of the day same as task into a list, iterate and find the specific item on that day
-                List<EventModel> x = (List<EventModel>)Events[task.DateTime];
-                foreach (EventModel model in x)
-                {
-                    if (model.ID == task.ID)
-                    {
-                        // remove that item from the list
-                        x.Remove(model);
-                        break;
-                    }
-                }
-                // remove the tasks of the right day (cant remove just one task unfortunately/dont know)
-                Events.Remove(task.DateTime);
-                // add the new modified list of tasks on the right day
-                if (x.Count > 0) Events.Add(task.DateTime, x);
-            }
-            catch (NullReferenceException e)
-            {
-                throw new NullReferenceException("bruh. task(argument) was empty -_-", e);
-            }
-            catch (KeyNotFoundException e)
-            {
-                throw new KeyNotFoundException("bruh. this item doesn't exist " + task.Name, e);
-            }
-            finally
-            {
-                popupPage.Close();
-            }
+            EventService.Instance.DeleteEvent(task);
+            popupPage.Close();
         }
 
+        // rather than saving upon pressing "Save", we instead undo the changes upon pressing "Cancel(or equivalent)"
+        // this is to work around the gimmick of Binding and Observable Properties
         [RelayCommand]
         public void Close()
         {
@@ -75,6 +49,8 @@ namespace MauiApp1.Scripts
             popupPage.Close();
         }
 
+        // due to binding, data is already saved as the user inputs it
+        // so don't need to do anything
         [RelayCommand]
         public void Save(EventModel task)
         {

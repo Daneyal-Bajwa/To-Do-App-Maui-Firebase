@@ -10,6 +10,6 @@ public partial class CalendarPage : ContentPage
     void UnloadedHandler(object sender, EventArgs e)
     {
         // crashes the app
-        //if (Calendar != null) Calendar.Dispose();
+        // if (Calendar != null) Calendar.Dispose();
     }
 }

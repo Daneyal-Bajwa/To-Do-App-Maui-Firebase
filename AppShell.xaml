@@ -4,12 +4,13 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:MauiApp1"
-    Shell.FlyoutBehavior="Locked"
     
+    Shell.FlyoutBehavior="Locked"
     Shell.ForegroundColor="{StaticResource LightBackground}"
     Shell.FlyoutBackdrop="{StaticResource LightBackground}"
     Shell.FlyoutBackgroundColor="{StaticResource PrimaryDark}"
     Shell.FlyoutWidth="150"
+    
     Shell.TabBarTitleColor="{StaticResource Accent}"
     Shell.TabBarForegroundColor="{StaticResource Primary}"
     Shell.TabBarUnselectedColor="White"
@@ -42,15 +43,22 @@
             Title="Home"
             ContentTemplate="{DataTemplate local:View.HomePage}"
             Route="HomePage" />
-    </FlyoutItem>
+    </FlyoutItem> 
     <FlyoutItem Title="Details" Icon="tasks.png">
         <ShellContent
             Shell.NavBarIsVisible="False"
             Title="Details"
             ContentTemplate="{DataTemplate local:View.DetailsPage}"
             Route="DetailsPage" />
-    </FlyoutItem>
+    </FlyoutItem> 
     <FlyoutItem Title="Calendar" Icon="calendar.png">
+        <ShellContent
+            Shell.NavBarIsVisible="False"
+            Title="Calendar"
+            ContentTemplate="{DataTemplate local:View.CalendarPage}"
+            Route="CalendarPage" />
+    </FlyoutItem>
+    <FlyoutItem Title="Account" Icon="calendar.png">
         <ShellContent
             Shell.NavBarIsVisible="False"
             Title="Calendar"

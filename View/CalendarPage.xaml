@@ -25,6 +25,8 @@
                     Events="{Binding Events}"
                     EventsScrollViewVisible="True"
                     EventIndicatorSelectedColor="Red"
+                    SwipeToChangeMonthEnabled="True"
+                    
                     Grid.Row="1"
                     Grid.ColumnSpan="2">
 

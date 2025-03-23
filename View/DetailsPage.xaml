@@ -1,41 +1,84 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"             
              xmlns:viewModel="clr-namespace:MauiApp1.ViewModel"
+             xmlns:model="clr-namespace:MauiApp1.Model"
              x:Class="MauiApp1.View.DetailsPage"
              x:DataType="viewModel:DetailsViewModel"
+             xmlns:cal="clr-namespace:Plugin.Maui.Calendar.Controls;assembly=Plugin.Maui.Calendar"
              Title="DetailsPage">
 
     <ContentPage.BindingContext>
         <viewModel:DetailsViewModel />
     </ContentPage.BindingContext>
 
+    <ContentPage.Resources>
+        <ResourceDictionary>
+
+            <DataTemplate x:Key="ValuesTemplate">
+                <StackLayout>
+                    <Label Text="{Binding Name}" 
+                            FontSize="Small"
+                           FontAttributes="Bold"
+                            TextColor="Black"/>
+                    <Label Text="{Binding Description}" 
+                            FontSize="Small"
+                            TextColor="Black"
+                            LineBreakMode="WordWrap" />
+                    <StackLayout.GestureRecognizers>
+                        <!-- need this fancy binding because we are inside the context of a data template -->
+                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewModel:DetailsViewModel}}, Path=EventPressedCommand}"
+                                                      CommandParameter="{Binding .}"/>
+                    </StackLayout.GestureRecognizers>
+                </StackLayout>
+            </DataTemplate>
+
+            <DataTemplate x:Key="DictionaryTemplate">
+                <StackLayout>
+                    <!-- Display DateTime Key -->
+                    <Label FontAttributes="Bold"
+                           Text="{Binding Key, StringFormat='{}{0:MMMM dd, yyyy HH:mm}'}"
+                            FontSize="Medium"
+                            TextColor="Black"/>
+
+                    <!-- Display ICollection<T> Items -->
+                    <CollectionView ItemsSource="{Binding Value}" 
+                                    ItemTemplate="{StaticResource ValuesTemplate}"/>
+                </StackLayout>
+            </DataTemplate>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
     <ContentView>
-        <Button Padding="10,5" Margin="10,10,20,0" 
-            Text="Add Task" FontAttributes="Bold" 
-            BorderWidth="1"
-            BorderColor="{StaticResource Accent2}"
-            TextColor="{StaticResource DarkBackground}" 
-            BackgroundColor="{StaticResource Accent}"
-            Command="{Binding AddTaskCommand}">
-            <VisualStateManager.VisualStateGroups>
-                <VisualStateGroup x:Name="CommonStates">
-                    <VisualState x:Name="Normal">
-                        <VisualState.Setters>
-                            <Setter Property="BackgroundColor" Value="{StaticResource Accent}" />
-                        </VisualState.Setters>
-                        <VisualState.StateTriggers>
-                            <StateTrigger IsActive="True" />
-                        </VisualState.StateTriggers>
-                    </VisualState>
-                    <VisualState x:Name="Pressed">
-                        <VisualState.Setters>
-                            <Setter Property="BackgroundColor" Value="{StaticResource PrimaryDark}" />
-                        </VisualState.Setters>
-                    </VisualState>
-                </VisualStateGroup>
-            </VisualStateManager.VisualStateGroups>
-        </Button>
+        <VerticalStackLayout>
+            <Button Padding="10,5" Margin="10,10,20,0" 
+                    Text="Add Task" FontAttributes="Bold" 
+                    BorderWidth="1"
+                    BorderColor="{StaticResource Accent2}"
+                    TextColor="{StaticResource DarkBackground}" 
+                    BackgroundColor="{StaticResource Accent}"
+                    Command="{Binding AddTaskCommand}">
+                <VisualStateManager.VisualStateGroups>
+                    <VisualStateGroup x:Name="CommonStates">
+                        <VisualState x:Name="Normal">
+                            <VisualState.Setters>
+                                <Setter Property="BackgroundColor" Value="{StaticResource Accent}" />
+                            </VisualState.Setters>
+                            <VisualState.StateTriggers>
+                                <StateTrigger IsActive="True" />
+                            </VisualState.StateTriggers>
+                        </VisualState>
+                        <VisualState x:Name="Pressed">
+                            <VisualState.Setters>
+                                <Setter Property="BackgroundColor" Value="{StaticResource PrimaryDark}" />
+                            </VisualState.Setters>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateManager.VisualStateGroups>
+            </Button>
+            <CollectionView ItemsSource="{Binding Events, UpdateSourceEventName=EventsUpdated}" 
+                      ItemTemplate="{StaticResource DictionaryTemplate}"/>
+
+        </VerticalStackLayout>
     </ContentView>
 </ContentPage>

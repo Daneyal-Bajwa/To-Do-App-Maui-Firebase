@@ -20,13 +20,14 @@ namespace MauiApp1.ViewModel
         [ObservableProperty] private string _name;
         [ObservableProperty] private string _description;
 
-        private readonly ClickEventBtn _clickEventBtn = new ClickEventBtn();
-
-        private readonly CreateEventBtn _createEventBtn = new CreateEventBtn();
+        private readonly ClickEventBtn _clickEventBtn;
+        private readonly CreateEventBtn _createEventBtn;
 
         public CalendarViewModel()
         {
             Initialize();
+            _createEventBtn = new CreateEventBtn();
+            _clickEventBtn = new ClickEventBtn();
         }
         
         [RelayCommand]

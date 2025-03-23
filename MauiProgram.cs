@@ -25,8 +25,8 @@ namespace MauiApp1
             builder.Services.AddSingleton<HomePage>();
             builder.Services.AddSingleton<HomeViewModel>();
 
-            builder.Services.AddSingleton<DetailsPage>();
-            builder.Services.AddSingleton<DetailsViewModel>();
+
+            builder.Services.AddTransient<DetailsViewModel>();
 
             builder.Services.AddSingleton<CalendarPage>();
             builder.Services.AddSingleton<CalendarViewModel>();

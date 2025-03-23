@@ -15,6 +15,8 @@ namespace MauiApp1.Scripts
     {
         public EventCollection Events => EventService.Instance.Events;
 
+        public UserData userData = new UserData();
+
         private AddTaskPopupPage addTaskPopupPage;
         [ObservableProperty] EventModel tempItem;
 
@@ -37,21 +39,8 @@ namespace MauiApp1.Scripts
         {
             if (TempItem != null && !string.IsNullOrEmpty(TempItem.Name))
             {
-                List<EventModel> x = new List<EventModel>();
-                try
-                {
-                    x = (List<EventModel>)Events[TempItem.DateTime];
-                }
-                catch (KeyNotFoundException)
-                {
-                }
-                finally
-                {
-                    x.Add(TempItem);
-                    Events.Remove(TempItem.DateTime);
-                    Events.Add(TempItem.DateTime, x);
-                    addTaskPopupPage.Close();
-                }
+                EventService.Instance.AddEvent(TempItem);
+                addTaskPopupPage.Close();                
             }
             else
             {
