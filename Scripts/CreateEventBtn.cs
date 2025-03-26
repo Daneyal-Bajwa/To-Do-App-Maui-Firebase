@@ -15,8 +15,6 @@ namespace MauiApp1.Scripts
     {
         public EventCollection Events => EventService.Instance.Events;
 
-        public UserData userData = new UserData();
-
         private AddTaskPopupPage addTaskPopupPage;
         [ObservableProperty] EventModel tempItem;
 

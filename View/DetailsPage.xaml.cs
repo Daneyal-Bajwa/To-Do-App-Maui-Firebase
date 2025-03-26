@@ -11,6 +11,8 @@ public partial class DetailsPage : ContentPage
     protected override void OnNavigatedTo(NavigatedToEventArgs args)
     {
         base.OnNavigatedTo(args);
+        var x = (DetailsViewModel)this.BindingContext;
+        x.SortEvents();
         InitializeComponent();
     }
 }

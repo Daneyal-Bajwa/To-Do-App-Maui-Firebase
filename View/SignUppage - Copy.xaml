@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="MauiApp1.View.LoginPage"
+             x:Class="MauiApp1.View.SignUppage"
              xmlns:viewModel="clr-namespace:MauiApp1.ViewModel"
              xmlns:behaviors="clr-namespace:MauiApp1.Behaviors"
-             x:DataType="viewModel:LoginViewModel"
-             Title="LoginPage">
+             x:DataType="viewModel:SignUpViewModel"
+             Title="SignUppage">
     <ContentPage.BindingContext>
-        <viewModel:LoginViewModel />
+        <viewModel:SignUpViewModel />
     </ContentPage.BindingContext>
 
 
     <VerticalStackLayout Padding="30,0" VerticalOptions="Center">
         <VerticalStackLayout Spacing="5">
-            <Label Text="Login to your account" FontSize="18" TextColor="{StaticResource Header}" FontAttributes="Bold" HorizontalOptions="Center" />
+            <Label Text="Register new account" FontSize="18" TextColor="Gray" HorizontalOptions="Center" />
         </VerticalStackLayout>
 
         <VerticalStackLayout Margin="0,25" HorizontalOptions="Center">
@@ -22,8 +22,20 @@
                     <Image Source="email.png" Margin="8,-5,0,0" HeightRequest="20" WidthRequest="20" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" />
                 </Frame>
                 <Frame HeightRequest="45" WidthRequest="300" Margin="-35,0,0,0" Padding="0" HasShadow="True" BackgroundColor="{StaticResource PrimaryDark}" BorderColor="White" HorizontalOptions="FillAndExpand">
-                    <Entry  Text="{Binding LoginModel.Email}"
+                    <Entry  Text="{Binding SignUpModel.Email}"
                             Placeholder="Your email"
+                            Margin="35,0,0,0"
+                            VerticalOptions="Center" 
+                            BackgroundColor="Transparent"/>
+                </Frame>
+            </HorizontalStackLayout>
+            <HorizontalStackLayout>
+                <Frame ZIndex="1" HasShadow="True" BackgroundColor="Transparent" HeightRequest="50" WidthRequest="50" CornerRadius="28">
+                    <Image Source="username.png" Margin="8,-5,0,0" HeightRequest="20" WidthRequest="20" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" />
+                </Frame>
+                <Frame HeightRequest="45" WidthRequest="300" Margin="-35,0,0,0" Padding="0" HasShadow="True" BackgroundColor="{StaticResource PrimaryDark}" BorderColor="White" HorizontalOptions="FillAndExpand">
+                    <Entry  Text="{Binding SignUpModel.Username}"
+                            Placeholder="Your username"
                             Margin="35,0,0,0"
                             VerticalOptions="Center" 
                             BackgroundColor="Transparent"/>
@@ -34,24 +46,24 @@
                     <Image Source="password.png" Margin="8,-5,0,0" HeightRequest="20" WidthRequest="20" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" />
                 </Frame>
                 <Frame HeightRequest="45" WidthRequest="300" Margin="-35,0,0,0" Padding="0" HasShadow="True" BackgroundColor="{StaticResource PrimaryDark}" BorderColor="White" HorizontalOptions="FillAndExpand">
-                    <Entry  Text="{Binding LoginModel.Password}"
+                    <Entry  Text="{Binding SignUpModel.Password}"
                             IsPassword="True"
                             Placeholder="Your password"
                             Margin="35,0,0,0"
                             VerticalOptions="Center" 
                             BackgroundColor="Transparent">
                         <Entry.Behaviors>
-                            <behaviors:EntryCompletedBehavior Command="{Binding LoginCommand}" />
+                            <behaviors:EntryCompletedBehavior Command="{Binding SignUpCommand}" />
                         </Entry.Behaviors>
                     </Entry>
                 </Frame>
             </HorizontalStackLayout>
         </VerticalStackLayout>
 
-        <Button Command="{Binding LoginCommand}"
-                Text="Login"
-                    WidthRequest="100"
-                    CornerRadius="9"
+        <Button Command="{Binding SignUpCommand}"
+                Text="Sign up"
+                WidthRequest="100"
+                CornerRadius="9"
                 FontAttributes="Bold"
                 Background="{StaticResource DarkBackground}" />
 
@@ -61,24 +73,16 @@
                 Margin="0, 70, 0, -10" Spacing="5">
             <Label MaximumWidthRequest="240"
                 VerticalTextAlignment="Center"
-                       Text="Don't have an account?"
+                       Text="Already have an account?"
                    VerticalOptions="Center"
-                   TextColor="{StaticResource Header2}"/>
-            <Button Command="{Binding NavigateToSignUpCommand}"
-                Text="Sign up"
+                   TextColor="Gray"/>
+            <Button Command="{Binding NavigateToLoginCommand}"
+                Text="Login"
                     WidthRequest="100"
                     CornerRadius="9"
                 FontAttributes="Bold"
                 Background="{StaticResource Accent2}" />
         </HorizontalStackLayout>
-
-        <Button Command="{Binding BypassCommand}"
-                Text="Login sample"
-                    WidthRequest="120"
-                    CornerRadius="9"
-                FontAttributes="Bold"
-                Margin="30"
-                Background="{StaticResource Accent2}" />
 
     </VerticalStackLayout>
 </ContentPage>

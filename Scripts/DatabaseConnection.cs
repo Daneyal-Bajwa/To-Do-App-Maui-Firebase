@@ -10,11 +10,14 @@ namespace MauiApp1.Scripts
 {
     public class DatabaseConnection
     {
-        public FirebaseClient connection;
+        private static DatabaseConnection _instance;
+        public static DatabaseConnection Instance => _instance ??= new DatabaseConnection();
 
-        public void Connect()
+        public FirebaseClient firebaseClient { get; private set; }
+
+        private DatabaseConnection()
         {
-            connection = new FirebaseClient("https://todo-maui-firebase-default-rtdb.europe-west1.firebasedatabase.app/");
+            firebaseClient = new FirebaseClient("https://todo-maui-firebase-default-rtdb.europe-west1.firebasedatabase.app/");
         }
     }
 }

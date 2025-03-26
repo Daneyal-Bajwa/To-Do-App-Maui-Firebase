@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Maui.Views;
+using Firebase.Database;
 using MauiApp1.Scripts;
 using MauiApp1.Services;
 using MauiApp1.View;
@@ -18,9 +19,6 @@ namespace MauiApp1.ViewModel
         private readonly CreateEventBtn _createEventBtn;
         private readonly ClickEventBtn _clickEventBtn;
 
-        private readonly UserData database;
-
-
         // not necessary logically, but program doesn't run without it
         [ObservableProperty] private string _key;
         [ObservableProperty] private string _value;
@@ -28,23 +26,11 @@ namespace MauiApp1.ViewModel
         [ObservableProperty] private string _name;
         [ObservableProperty] private string _description;
 
-
         public DetailsViewModel()
         {
-            database = new UserData();
-            // database.AddEvent(new EventModel(title, "test description", DateTime.Now));
 
             _createEventBtn = new CreateEventBtn();
             _clickEventBtn = new ClickEventBtn();
-
-            foreach (var x in Events)
-            {
-                foreach (EventModel y in x.Value)
-                {
-                    Console.WriteLine(y.Name);
-                }
-            }
-
         }
 
         [RelayCommand]
@@ -57,6 +43,25 @@ namespace MauiApp1.ViewModel
         public void EventPressed(EventModel e)
         {
             _clickEventBtn.ShowPopup(ref e);
+        }
+
+        public void SortEvents()
+        {
+            EventService.Instance.SortEvents();
+        }
+
+        [RelayCommand]
+        public void SuggestTasks()
+        {
+            var suggestions = new TaskSuggester().SuggestTasks();
+            foreach (var suggestion in suggestions)
+            {
+                foreach (var task in suggestion.Value)
+                {
+                    var x = task;
+                    var y = "";
+                }
+            }
         }
     }
 }

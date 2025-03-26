@@ -8,11 +8,19 @@
             <Color x:Key="Primary">#E2CEDA</Color>
             <Color x:Key="Secondary">#D2B5C9</Color>
             <Color x:Key="PrimaryDark">#915f6d</Color>
+            <Color x:Key="SecondaryDark">#421B2E</Color>
             <Color x:Key="Accent">#EAAEBD</Color>
             <Color x:Key="Accent2">#B783A7</Color>
+            <Color x:Key="Accent3">#7F3358</Color>
 
             <Color x:Key="LightBackground">#E2CEDA</Color>
             <Color x:Key="DarkBackground">#915f6d</Color>
+            <Color x:Key="DarkBackground2">#662946</Color>
+
+            <Color x:Key="Header">#662946</Color>
+            <Color x:Key="HeaderAlt">#915f6d</Color>
+            <Color x:Key="Header2">#421B2E</Color>
+            <Color x:Key="Text">#421B2E</Color>
 
             <Style ApplyToDerivedTypes="True" TargetType="Page">
                 <Setter Property="BackgroundColor" Value="{StaticResource LightBackground}" />
@@ -57,6 +65,26 @@
                 <Setter Property="HeightRequest" Value="40" />
                 <Setter Property="CornerRadius" Value="20" />
             </Style>
+
+            <Style x:Key="Button" TargetType="Button">
+                <Setter Property="FontAttributes" Value="Bold"/>
+                <Setter Property="BorderColor" Value="{StaticResource Accent2}"/>
+                <Setter Property="BorderWidth" Value="1"/>
+                <Setter Property="TextColor" Value="{StaticResource DarkBackground}"/>
+                <Setter Property="BackgroundColor" Value="{StaticResource Accent}"/>
+            </Style>
+
+            <Style x:Key="PoppUpButton" TargetType="Button">
+                <Setter Property="FontAttributes" Value="Bold"/>
+                <Setter Property="MinimumWidthRequest" Value="100"/>
+                <Setter Property="Margin" Value="15"/>
+                <Setter Property="BackgroundColor" Value="PaleVioletRed"/>
+                <Setter Property="BorderColor" Value="{StaticResource Accent2}"/>
+                <Setter Property="BorderWidth" Value="1"/>
+            </Style>
+
+
+
             <Style x:Key="CardView" TargetType="Frame">
                 <Setter Property="BorderColor" Value="#DDDDDD" />
                 <Setter Property="HasShadow" Value="{OnPlatform iOS=false, MacCatalyst=false, Default=true}" />

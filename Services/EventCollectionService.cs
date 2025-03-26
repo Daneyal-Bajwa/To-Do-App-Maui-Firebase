@@ -2,115 +2,201 @@ using Plugin.Maui.Calendar.Models;
 using MauiApp1.Model;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Firebase.Database;
+using MauiApp1.Scripts;
+using Firebase.Database.Query;
+using System.Collections.Immutable;
+using System;
+using Firebase.Database.Streaming;
+using Newtonsoft.Json;
 
 namespace MauiApp1.Services
 {
-    public class EventService : ObservableObject
+    public class EventService
     {
         private static EventService _instance;
+        private static FirebaseClient _firebaseClient;
+
         public static EventService Instance => _instance ??= new EventService();
+        private static string _userService => UserService.UserID;
 
         public EventCollection Events { get; set; }
+        // to allow sorting of Events
+        public Dictionary<DateTime, List<EventModel>> EventsDict = new Dictionary<DateTime, List<EventModel>>();
 
-        public event EventHandler EventsUpdated;
+
         private EventService()
         {
-            Events = new EventCollection
-            {
-                [DateTime.Now] = new List<EventModel>
-                    {
-                        new EventModel("Cool event1", "This is Cool event1's description!", DateTime.Now),
-                        new EventModel("Cool event2", "This is Cool event2's description!", DateTime.Now)
-                    },
-                [DateTime.Now.AddDays(5)] = new List<EventModel>
-                    {
-                        new EventModel("Cool event3", "This is Cool event3's description!", DateTime.Now.AddDays(5)),
-                        new EventModel("Cool event4", "This is Cool event4's description!", DateTime.Now.AddDays(5))
-                    },
-                [DateTime.Now.AddDays(-3)] = new List<EventModel>
-                    {
-                        new EventModel("Cool event5", "This is Cool event5's description!", DateTime.Now.AddDays(-3))
-                    },
-                [new DateTime(2024, 3, 16)] = new List<EventModel>
-                    {
-                        new EventModel("Cool event6", "This is Cool event6's description!", new DateTime(2024, 3, 16))
-                    }
-            };
+            Events = new EventCollection();
+
+            _firebaseClient = DatabaseConnection.Instance.firebaseClient;
+            LoadDataAsync();
         }
 
-        public EventCollection GetEvents()
+        private DateTime DecodeDateTime(string dateTimeString)
         {
-            return Events;
+            string format = "yyyy-MM-dd";
+            DateTime dateTime = DateTime.ParseExact(dateTimeString, format, System.Globalization.CultureInfo.InvariantCulture);
+
+            return dateTime;
         }
+        private string EncodeDateTime(DateTime dateTime)
+        {
+            string dateTimeString = dateTime.ToString("yyyy-MM-dd");
+            return dateTimeString;
+        }
+        public async Task LoadDataAsync()
+        {
+            /*
+            await _firebaseClient
+                .Child($"Event Collection")
+                .Child(_userService)
+                .Child("2025-03-26")
+                .PutAsync(new List<EventModel> { new EventModel("Name1", "Description 1", DateTime.Now)});
+            */
+            _firebaseClient.Child("Event Collection").Child(_userService).AsObservable<List<EventModel>>().Subscribe((item) =>
+            {
+
+                if (item.EventType == Firebase.Database.Streaming.FirebaseEventType.Delete)
+                {
+                    Console.WriteLine("Delete triggered");
+                    // if item exists in events, it is removed (this is for when the only task of the day is cleared)
+                    if (item.Object.Count>0) DeleteEvent(item.Object[0]);
+                }
+                else if (item.EventType == Firebase.Database.Streaming.FirebaseEventType.InsertOrUpdate)
+                {
+                    Console.WriteLine("Insert or update triggered");
+                    if (item.Object != null)
+                    {
+                        DateTime dateKey = DecodeDateTime(item.Key);
+                        /*
+                        if (item.Object.Count > 1)
+                        {
+                            Events[dateKey] = item.Object;
+                        }
+                        else
+                        {
+                            if (Events.ContainsKey(dateKey))
+                            {
+                                Events.Remove(dateKey);
+                                Events[dateKey] = item.Object;
+
+                            }
+                            else
+                            {
+                                Events[dateKey] = item.Object;
+                            }
+                        }
+                        */
+                        Events[dateKey] = item.Object;
+                        EventsDict[dateKey] = item.Object;
+                    }
+                }
+            });
+
+        }
+        public void SortEvents()
+        {
+            EventsDict = EventsDict.OrderBy(e => e.Key).ToDictionary(e => e.Key, e => e.Value);
+            //Events.Clear();
+            foreach (var item in EventsDict)
+            {
+                //Events[item.Key] = item.Value;
+            }
+        }
+
         public void SetEvents(EventCollection events)
         {
             Events = events;
         }
-        public Dictionary<DateTime, List<EventModel>> GetEvents2()
-        {
-            Dictionary<DateTime, List<EventModel>> y = new Dictionary<DateTime, List<EventModel>>();
-            foreach (var x in Events)
-            {
-                y.Add(x.Key, x.Value.Cast<EventModel>().ToList());
-            }
-            return y;
-        }
-
 
         public void AddEvent(EventModel eventModel)
         {
             if (Events.ContainsKey(eventModel.DateTime))
             {
-                List<EventModel> x = new List<EventModel>();
-                x = (List<EventModel>)Events[eventModel.DateTime];
+                List<EventModel> x = (List<EventModel>)Events[eventModel.DateTime];
 
                 x.Add(eventModel);
                 Events.Remove(eventModel.DateTime);
                 Events.Add(eventModel.DateTime, x);
-
+                EventsDict[eventModel.DateTime] = x;
+                string dateKey = eventModel.DateTime.ToString("yyyy-MM-dd");
+                Add(dateKey, x);
             }
             else
             {
-                Events[eventModel.DateTime] = new List<EventModel> { eventModel };
+                Events[eventModel.DateTime] = EventsDict[eventModel.DateTime] = new List<EventModel> { eventModel };
+                string dateKey = eventModel.DateTime.ToString("yyyy-MM-dd");
+                Add(dateKey, new List<EventModel> { eventModel });
             }
         }
-
-        public void UpdateEvent(EventModel eventModel)
+        /*
+        public void UpdateEvents(EventModel eventModel)
         {
+            // dont need to implement as binding takes care of it
+
             if (Events.ContainsKey(eventModel.DateTime))
-            {/*
-                var eventList = Events[eventModel.DateTime];
-                var existingEvent = eventList.Find(e => e.ID == eventModel.ID);
-                if (existingEvent != null)
-                {
-                    existingEvent.Name = eventModel.Name;
-                    existingEvent.Description = eventModel.Description;
-                    existingEvent.DateTime = eventModel.DateTime;
-                }
-                */
+            {
+                    var eventList = Events[eventModel.DateTime];
+                    var existingEvent = eventList.Find(e => e.ID == eventModel.ID);
+                    if (existingEvent != null)
+                    {
+                        existingEvent.Name = eventModel.Name;
+                        existingEvent.Description = eventModel.Description;
+                        existingEvent.DateTime = eventModel.DateTime;
+                    }
+                    
             }
         }
-
+*/
         public void DeleteEvent(EventModel eventModel)
         {
-            if (Events.ContainsKey(eventModel.DateTime))
+            if (Events.ContainsKey(eventModel.DateTime.Date))
             {
                 // convert events of the day same as task into a list, iterate and find the specific item on that day
                 List<EventModel> x = (List<EventModel>)Events[eventModel.DateTime];
+                bool removed = false;
                 foreach (EventModel task in x)
                 {
                     if (task.ID == eventModel.ID)
                     {
                         // remove that item from the list
                         x.Remove(task);
+                        removed = true;
                         break;
                     }
                 }
-                // remove the tasks of the right day (cant remove just one task unfortunately/dont know)
+                // prevent feedback loop between realtime db and this
+                if (!removed) return;
+                // remove the tasks of the right day (cant remove just one task unfortunately)
                 Events.Remove(eventModel.DateTime);
+                EventsDict[eventModel.DateTime] = x;
                 // add the new modified list of tasks on the right day
-                if (x.Count > 0) Events.Add(eventModel.DateTime, x);
+                string dateKey = EncodeDateTime(eventModel.DateTime);
+                if (x.Count > 0)
+                {
+                    Events.Add(eventModel.DateTime, x);
+
+                    Add(dateKey, x);
+                }
+                else
+                {
+                    _firebaseClient
+                        .Child($"Event Collection")
+                        .Child(_userService)
+                        .Child(dateKey)
+                        .DeleteAsync();
+                }
             }
+        }
+
+        public async Task Add(string dateKey, List<EventModel> eventModels)
+        {
+            await _firebaseClient
+                .Child($"Event Collection")
+                .Child(_userService)
+                .Child(dateKey)
+                .PutAsync(eventModels);
         }
     }
 }

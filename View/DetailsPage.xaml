@@ -20,10 +20,10 @@
                     <Label Text="{Binding Name}" 
                             FontSize="Small"
                            FontAttributes="Bold"
-                            TextColor="Black"/>
+                            TextColor="{StaticResource Header2}"/>
                     <Label Text="{Binding Description}" 
                             FontSize="Small"
-                            TextColor="Black"
+                            TextColor="{StaticResource Text}"
                             LineBreakMode="WordWrap" />
                     <StackLayout.GestureRecognizers>
                         <!-- need this fancy binding because we are inside the context of a data template -->
@@ -37,48 +37,65 @@
                 <StackLayout>
                     <!-- Display DateTime Key -->
                     <Label FontAttributes="Bold"
-                           Text="{Binding Key, StringFormat='{}{0:MMMM dd, yyyy HH:mm}'}"
+                           Text="{Binding Key, StringFormat='{}{0:MMMM dd}'}"
                             FontSize="Medium"
-                            TextColor="Black"/>
+                            TextColor="{StaticResource Header}"/>
 
                     <!-- Display ICollection<T> Items -->
                     <CollectionView ItemsSource="{Binding Value}" 
                                     ItemTemplate="{StaticResource ValuesTemplate}"/>
+                    <!-- a black separator line -->
+                    <BoxView HeightRequest="1.5" BackgroundColor="{StaticResource Header}" HorizontalOptions="FillAndExpand" Margin="0,10,0,10"/>
                 </StackLayout>
             </DataTemplate>
         </ResourceDictionary>
     </ContentPage.Resources>
 
     <ContentView>
-        <VerticalStackLayout>
-            <Button Padding="10,5" Margin="10,10,20,0" 
-                    Text="Add Task" FontAttributes="Bold" 
+        <ScrollView>
+            <VerticalStackLayout>
+                <Button Padding="10,5" Margin="10,10,20,0" 
+                    HeightRequest="52"
+                    WidthRequest="81.5"
+                    HorizontalOptions="EndAndExpand"
+                    Text="Add Task" 
+                    Style="{StaticResource Button}"
+                    Command="{Binding AddTaskCommand}">
+                    <VisualStateManager.VisualStateGroups>
+                        <VisualStateGroup x:Name="CommonStates">
+                            <VisualState x:Name="Normal">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="{StaticResource Accent}" />
+                                </VisualState.Setters>
+                                <VisualState.StateTriggers>
+                                    <StateTrigger IsActive="True" />
+                                </VisualState.StateTriggers>
+                            </VisualState>
+                            <VisualState x:Name="Pressed">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="{StaticResource PrimaryDark}" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateManager.VisualStateGroups>
+                </Button>
+
+                <Button Padding="10,5" Margin="10,10,20,0" 
+                    HeightRequest="52"
+                    WidthRequest="81.5"
+                    HorizontalOptions="EndAndExpand"
+                    Text="Suggest Task" FontAttributes="Bold" 
                     BorderWidth="1"
                     BorderColor="{StaticResource Accent2}"
                     TextColor="{StaticResource DarkBackground}" 
                     BackgroundColor="{StaticResource Accent}"
-                    Command="{Binding AddTaskCommand}">
-                <VisualStateManager.VisualStateGroups>
-                    <VisualStateGroup x:Name="CommonStates">
-                        <VisualState x:Name="Normal">
-                            <VisualState.Setters>
-                                <Setter Property="BackgroundColor" Value="{StaticResource Accent}" />
-                            </VisualState.Setters>
-                            <VisualState.StateTriggers>
-                                <StateTrigger IsActive="True" />
-                            </VisualState.StateTriggers>
-                        </VisualState>
-                        <VisualState x:Name="Pressed">
-                            <VisualState.Setters>
-                                <Setter Property="BackgroundColor" Value="{StaticResource PrimaryDark}" />
-                            </VisualState.Setters>
-                        </VisualState>
-                    </VisualStateGroup>
-                </VisualStateManager.VisualStateGroups>
-            </Button>
-            <CollectionView ItemsSource="{Binding Events, UpdateSourceEventName=EventsUpdated}" 
+                    Command="{Binding SuggestTasksCommand}">
+                </Button>
+
+                <CollectionView Margin="30,0" ItemsSource="{Binding Events, UpdateSourceEventName=EventsUpdated}" 
                       ItemTemplate="{StaticResource DictionaryTemplate}"/>
 
-        </VerticalStackLayout>
+            </VerticalStackLayout>
+        </ScrollView>
     </ContentView>
 </ContentPage>

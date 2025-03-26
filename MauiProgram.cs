@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Maui;
 using Firebase.Database;
+using MauiApp1.Scripts;
 using MauiApp1.Services;
 using MauiApp1.View;
 using Microsoft.Extensions.Logging;
@@ -33,6 +34,21 @@ namespace MauiApp1
 
             builder.Services.AddTransient<AddTaskPopupPage>();
             builder.Services.AddTransient<PopupPage>();
+
+            builder.Services.AddSingleton<RemindersPage>();
+            builder.Services.AddSingleton<RemindersViewModel>();
+
+            builder.Services.AddSingleton<DatabaseConnection>();
+            builder.Services.AddSingleton<AuthConnection>();
+
+            builder.Services.AddSingleton<EventService>();
+
+            builder.Services.AddSingleton<LoginPage>();
+            builder.Services.AddSingleton<LoginViewModel>();
+
+            builder.Services.AddSingleton<SignUpPage>();
+            builder.Services.AddSingleton<SignUpViewModel>();
+
 
 
 #if DEBUG

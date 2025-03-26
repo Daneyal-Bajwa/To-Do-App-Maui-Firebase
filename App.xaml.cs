@@ -9,7 +9,6 @@ namespace MauiApp1
             InitializeComponent();
 
             MainPage = new LoginPage();
-
         }
 
         protected override void OnStart()
