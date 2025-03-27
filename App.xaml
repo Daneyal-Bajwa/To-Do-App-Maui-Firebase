@@ -9,6 +9,7 @@
             <Color x:Key="Secondary">#D2B5C9</Color>
             <Color x:Key="PrimaryDark">#915f6d</Color>
             <Color x:Key="SecondaryDark">#421B2E</Color>
+            <Color x:Key="Medium">#AE8794</Color>
             <Color x:Key="Accent">#EAAEBD</Color>
             <Color x:Key="Accent2">#B783A7</Color>
             <Color x:Key="Accent3">#7F3358</Color>

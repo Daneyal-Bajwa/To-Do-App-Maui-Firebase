@@ -112,7 +112,8 @@
                         Style="{StaticResource Button}"
                         BackgroundColor="{StaticResource Accent3}"
                         TextColor="{StaticResource Primary}"
-                        Command="{Binding RefreshCommand}" />
+                        Command="{Binding RefreshCommand}" 
+                        IsVisible="False"/>
 
                 </HorizontalStackLayout>
 

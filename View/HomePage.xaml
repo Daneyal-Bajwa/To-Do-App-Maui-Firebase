@@ -63,7 +63,7 @@
                                     </SwipeView.RightItems>
                                     <VerticalStackLayout Padding="4">
                                         <Frame BackgroundColor="Transparent" Padding="0" HorizontalOptions="Start">
-                                            <Label Text="{Binding .}" Padding="15" FontSize="17" MaximumWidthRequest="5000" BackgroundColor="{StaticResource Accent2}" />
+                                            <Label Text="{Binding .}" Padding="15" FontSize="17" MaximumWidthRequest="5000" BackgroundColor="{StaticResource Medium}" />
                                         </Frame>
                                     </VerticalStackLayout>
                                 </SwipeView>

@@ -10,7 +10,7 @@
 
     <Border Padding="0" BackgroundColor="{StaticResource LightBackground}">
         <Border.StrokeShape>
-            <RoundRectangle CornerRadius="14"/>
+            <RoundRectangle CornerRadius="8"/>
         </Border.StrokeShape>
         <Grid>
             <Grid.RowDefinitions>
@@ -48,7 +48,7 @@
 
             <HorizontalStackLayout Grid.Row="1" Margin="10">
                 <DatePicker Date="{Binding TempItem.DateTime}" Format="dd/MM/yy" TextColor="{StaticResource HeaderAlt}" />
-                <TimePicker Time="{Binding TempItem.DateTime.TimeOfDay}" TextColor="{StaticResource HeaderAlt}" />
+                <TimePicker Time="{Binding TempTime}" TextColor="{StaticResource HeaderAlt}" />
             </HorizontalStackLayout>
 
             <HorizontalStackLayout Grid.Row="2" HeightRequest="55">

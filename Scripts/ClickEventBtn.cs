@@ -25,8 +25,11 @@ namespace MauiApp1.Scripts
         // hard copy of event, stores details in case the user decides to cancel editing
         [ObservableProperty] EventModel _tempItem;
 
+        [ObservableProperty] private TimeSpan _tempTime;
+
         public void ShowPopup(ref EventModel e)
         {
+            TempTime = e.DateTime.TimeOfDay;
             IsCheckBoxEnabled = true;
             if (e.ReminderOption == ReminderOptions.None)
             {
@@ -64,11 +67,10 @@ namespace MauiApp1.Scripts
         [RelayCommand]
         public void Save()
         {
-
             _currSelectedEvent.Name = TempItem.Name;
             _currSelectedEvent.Description = TempItem.Description;
-            _currSelectedEvent.DateTime = TempItem.DateTime;
-            // if the user unchecked the check box, taht means they do not want a reminder
+            _currSelectedEvent.DateTime = _currSelectedEvent.DateTime.Date + TempTime;
+            // if the user unchecked the check box, that means they do not want a reminder
             if (!IsCheckBoxEnabled)
                 _currSelectedEvent.ReminderOption = ReminderOptions.None;
             else

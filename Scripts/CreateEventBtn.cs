@@ -17,10 +17,14 @@ namespace MauiApp1.Scripts
 
         private AddTaskPopupPage addTaskPopupPage;
         [ObservableProperty] EventModel tempItem;
+        // need to create this cuz DateTime.TimeOfDay is readonly, binding doesnt change it
+        [ObservableProperty] TimeSpan _tempTime;
 
         public void ShowPopup()
         {
-            TempItem = new EventModel("", "", DateTime.Now);
+            TempItem = new EventModel("", "", DateTime.Today);
+            TempTime = TempItem.DateTime.TimeOfDay;
+
             addTaskPopupPage = new AddTaskPopupPage();
             addTaskPopupPage.BindingContext = this; // Set the BindingContext
             Application.Current.MainPage.ShowPopup(addTaskPopupPage);
@@ -37,6 +41,7 @@ namespace MauiApp1.Scripts
         {
             if (TempItem != null && !string.IsNullOrEmpty(TempItem.Name))
             {
+                TempItem.DateTime = DateTime.Today + TempTime;
                 EventService.Instance.AddEvent(TempItem);
                 addTaskPopupPage.Close();                
             }

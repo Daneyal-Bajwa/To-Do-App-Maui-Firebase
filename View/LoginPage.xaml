@@ -10,72 +10,70 @@
         <viewModel:LoginViewModel />
     </ContentPage.BindingContext>
 
-
     <VerticalStackLayout Padding="30,0" VerticalOptions="Center">
-        <VerticalStackLayout Spacing="5">
-            <Label Text="Login to your account" FontSize="18" TextColor="{StaticResource Header}" FontAttributes="Bold" HorizontalOptions="Center" />
-        </VerticalStackLayout>
+        <Frame Padding="30,70" Margin="30" WidthRequest="400" BorderColor="{StaticResource SecondaryDark}" BackgroundColor="{StaticResource Medium}">
 
-        <VerticalStackLayout Margin="0,25" HorizontalOptions="Center">
-            <HorizontalStackLayout>
-                <Frame ZIndex="1" HasShadow="True" BackgroundColor="Transparent" HeightRequest="50" WidthRequest="50" CornerRadius="28">
-                    <Image Source="email.png" Margin="8,-5,0,0" HeightRequest="20" WidthRequest="20" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" />
-                </Frame>
-                <Frame HeightRequest="45" WidthRequest="300" Margin="-35,0,0,0" Padding="0" HasShadow="True" BackgroundColor="{StaticResource PrimaryDark}" BorderColor="White" HorizontalOptions="FillAndExpand">
-                    <Entry  Text="{Binding LoginModel.Email}"
-                            Placeholder="Your email"
-                            Margin="35,0,0,0"
-                            VerticalOptions="Center" 
-                            BackgroundColor="Transparent"/>
-                </Frame>
-            </HorizontalStackLayout>
-            <HorizontalStackLayout>
-                <Frame ZIndex="1" HasShadow="True" BackgroundColor="Transparent" HeightRequest="50" WidthRequest="50" CornerRadius="28">
-                    <Image Source="password.png" Margin="8,-5,0,0" HeightRequest="20" WidthRequest="20" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" />
-                </Frame>
-                <Frame HeightRequest="45" WidthRequest="300" Margin="-35,0,0,0" Padding="0" HasShadow="True" BackgroundColor="{StaticResource PrimaryDark}" BorderColor="White" HorizontalOptions="FillAndExpand">
-                    <Entry  Text="{Binding LoginModel.Password}"
-                            IsPassword="True"
-                            Placeholder="Your password"
-                            Margin="35,0,0,0"
-                            VerticalOptions="Center" 
-                            BackgroundColor="Transparent">
-                        <Entry.Behaviors>
-                            <behaviors:EntryCompletedBehavior Command="{Binding LoginCommand}" />
-                        </Entry.Behaviors>
-                    </Entry>
-                </Frame>
-            </HorizontalStackLayout>
-        </VerticalStackLayout>
+            <VerticalStackLayout BackgroundColor="Transparent" Spacing="25">
 
-        <Button Command="{Binding LoginCommand}"
-                Text="Login"
-                    WidthRequest="100"
-                    CornerRadius="9"
-                FontAttributes="Bold"
-                Background="{StaticResource DarkBackground}" />
+                <Label Text="Login to your account" Margin="5" FontSize="23" TextColor="{StaticResource Header}" FontAttributes="Bold" HorizontalOptions="Center" />
 
+                <!-- The two entry boxes -->
+                <VerticalStackLayout Margin="0,25" HorizontalOptions="Center" >
+                    <Frame ZIndex="1" Padding="0" HasShadow="True" Margin="0,5" BackgroundColor="{StaticResource PrimaryDark}" BorderColor="{StaticResource SecondaryDark}" HeightRequest="48" WidthRequest="300" CornerRadius="8">
+                        <HorizontalStackLayout>
+                            <Image Source="email.png" Margin="20,0,10,0" HeightRequest="20" WidthRequest="20" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" />
+                            <Entry  Text="{Binding LoginModel.Email}"
+                                    WidthRequest="220"                                        
+                                    Placeholder="Your email"
+                                    Margin="0,0,20,0"
+                                    VerticalOptions="Center" 
+                                    BackgroundColor="Transparent"/>                        
+                        </HorizontalStackLayout>
+                    </Frame>
+                    <Frame ZIndex="1" Padding="0" HasShadow="True" Margin="0,5" BackgroundColor="{StaticResource PrimaryDark}" BorderColor="{StaticResource SecondaryDark}" HeightRequest="48" WidthRequest="300" CornerRadius="8">
+                        <HorizontalStackLayout>
+                            <Image Source="password.png" Margin="20,0,10,0" HeightRequest="20" WidthRequest="20" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" />
+                            <Entry  Text="{Binding LoginModel.Password}"
+                                    WidthRequest="220"                                        
+                                    Placeholder="Your password"
+                                    Margin="0,0,20,0"
+                                    VerticalOptions="Center" 
+                                    BackgroundColor="Transparent"
+                                    IsPassword="True" />
+                        </HorizontalStackLayout>
+                    </Frame>
+                </VerticalStackLayout>
 
+                <Button Command="{Binding LoginCommand}"
+                        Text="Login"
+                        WidthRequest="100"
+                        CornerRadius="8"
+                        FontAttributes="Bold"
+                        BorderColor="{StaticResource SecondaryDark}"
+                        Background="{StaticResource DarkBackground}" />
+
+            </VerticalStackLayout>
+        </Frame>
         <HorizontalStackLayout
                 HorizontalOptions="Center"
-                Margin="0, 70, 0, -10" Spacing="5">
+                Margin="0, 0, 0, -10" Spacing="5">
             <Label MaximumWidthRequest="240"
                 VerticalTextAlignment="Center"
-                       Text="Don't have an account?"
-                   VerticalOptions="Center"
-                   TextColor="{StaticResource Header2}"/>
+                Text="Don't have an account?"
+                VerticalOptions="Center"
+                TextColor="{StaticResource Header2}"/>
             <Button Command="{Binding NavigateToSignUpCommand}"
                 Text="Sign up"
-                    WidthRequest="100"
-                    CornerRadius="9"
+                WidthRequest="100"
+                CornerRadius="8"
                 FontAttributes="Bold"
                 Background="{StaticResource Accent2}" />
         </HorizontalStackLayout>
 
         <Button Command="{Binding BypassCommand}"
-                Text="Login sample"
-                    WidthRequest="120"
-                    CornerRadius="9"
+            Text="Login sample"
+                WidthRequest="120"
+                CornerRadius="8"
                 FontAttributes="Bold"
                 Margin="30"
                 Background="{StaticResource Accent2}" />

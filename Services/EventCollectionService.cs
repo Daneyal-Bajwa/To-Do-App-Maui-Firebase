@@ -112,7 +112,7 @@ namespace MauiApp1.Services
 
         public void AddEvent(EventModel eventModel)
         {
-            if (Events.ContainsKey(eventModel.DateTime))
+            if (Events.ContainsKey(eventModel.DateTime.Date))
             {
                 List<EventModel> x = (List<EventModel>)Events[eventModel.DateTime];
 
@@ -133,7 +133,7 @@ namespace MauiApp1.Services
         
         public void UpdateEvent(EventModel eventModel)
         {
-            if (Events.ContainsKey(eventModel.DateTime))
+            if (Events.ContainsKey(eventModel.DateTime.Date))
             {
                 Add(EncodeDateTime(eventModel.DateTime), (List<EventModel>)Events[eventModel.DateTime]);                   
             }
