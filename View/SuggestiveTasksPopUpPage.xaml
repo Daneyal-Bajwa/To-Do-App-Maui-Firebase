@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mct:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+            xmlns:mct="clr-namespace:CommunityToolkit.Maui.Views;assembly=CommunityToolkit.Maui"
+           xmlns:scripts="clr-namespace:MauiApp1.Scripts"
+            x:Class="MauiApp1.View.SuggestiveTasksPopUpPage"
+            CanBeDismissedByTappingOutsideOfPopup="True"
+           Color="Transparent">
+
+    <mct:Popup.Resources>
+        <ResourceDictionary>
+            <DataTemplate x:Key="ValuesTemplate">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <StackLayout Grid.Column="0">
+                        <Label Text="{Binding Name}" 
+                                FontSize="Small"
+                               FontAttributes="Bold"
+                                TextColor="{StaticResource Header2}"
+                               LineBreakMode="WordWrap"/>
+                        <Label Text="{Binding Description}" 
+                                FontSize="Small"
+                                TextColor="{StaticResource Text}"
+                                LineBreakMode="WordWrap" />
+                        <Label Text="{Binding DateTime, StringFormat='{}{0:dd/MM/yy}'}" 
+                                FontSize="Small"
+                                TextColor="{StaticResource Text}"
+                                LineBreakMode="WordWrap" />
+
+                        <!-- a black separator line -->
+                        <BoxView HeightRequest="1.5" BackgroundColor="{StaticResource Header}" HorizontalOptions="FillAndExpand" Margin="0,10,0,10"/>
+                    </StackLayout>
+                    
+                    <Button 
+                        Grid.Column="1"
+                        Padding="20,5" Margin="10,10,20,10" 
+                        MaximumHeightRequest="52"
+                        HorizontalOptions="Start"
+                        Text="Add"
+                        Style="{StaticResource Button}"
+                        Command="{Binding Source={RelativeSource AncestorType={x:Type scripts:ClickSuggestTasksBtn}}, Path=AddCommand}"
+                                                          CommandParameter="{Binding .}" />
+                </Grid>
+            </DataTemplate>
+        </ResourceDictionary>
+    </mct:Popup.Resources>
+
+
+    <Border Padding="0" BackgroundColor="{StaticResource LightBackground}">
+        <Border.StrokeShape>
+            <RoundRectangle CornerRadius="14"/>
+        </Border.StrokeShape>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Label 
+                    Grid.Row="0"
+                    Text="Suggested Tasks"
+                    BackgroundColor="Transparent"
+                    FontSize="30"
+                    Margin="20"
+                    VerticalOptions="Start" 
+                    HorizontalOptions="Start"
+                    FontAttributes="Bold"
+                    TextColor="{StaticResource HeaderAlt}"/>
+                <ImageButton
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    HorizontalOptions="End"
+                    BackgroundColor="Transparent"
+                    Source="cross.png"
+                    HeightRequest="50"
+                    WidthRequest="50"
+                    Margin="0,0,10,0"
+                    Command="{Binding CloseCommand}" />
+            </Grid>
+
+            <ScrollView Grid.Row="1" Margin="0,0,0,20">
+                <CollectionView Margin="30,0" ItemsSource="{Binding Suggestions, Mode=OneWay}"  
+                      ItemTemplate="{StaticResource ValuesTemplate}"/>
+            </ScrollView>
+            
+        </Grid>
+    </Border>
+</mct:Popup>

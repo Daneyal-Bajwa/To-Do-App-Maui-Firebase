@@ -15,4 +15,16 @@ public partial class DetailsPage : ContentPage
         x.SortEvents();
         InitializeComponent();
     }
+
+    private void CheckBox_CheckedChanged(object sender, CheckedChangedEventArgs e)
+    {
+        if (sender is CheckBox checkBox && checkBox.BindingContext is EventModel eventModel)
+        {
+            var viewModel = BindingContext as DetailsViewModel;
+            if (viewModel != null)
+            {
+                viewModel.UpdateEventCommand.Execute(eventModel);
+            }
+        }
+    }
 }

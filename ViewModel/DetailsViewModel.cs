@@ -18,6 +18,7 @@ namespace MauiApp1.ViewModel
 
         private readonly CreateEventBtn _createEventBtn;
         private readonly ClickEventBtn _clickEventBtn;
+        private readonly ClickSuggestTasksBtn _clickSuggestTaskBtn;
 
         // not necessary logically, but program doesn't run without it
         [ObservableProperty] private string _key;
@@ -25,12 +26,15 @@ namespace MauiApp1.ViewModel
 
         [ObservableProperty] private string _name;
         [ObservableProperty] private string _description;
+        [ObservableProperty] private string _isCompleted;
+
 
         public DetailsViewModel()
         {
 
             _createEventBtn = new CreateEventBtn();
             _clickEventBtn = new ClickEventBtn();
+            _clickSuggestTaskBtn = new ClickSuggestTasksBtn();
         }
 
         [RelayCommand]
@@ -53,15 +57,18 @@ namespace MauiApp1.ViewModel
         [RelayCommand]
         public void SuggestTasks()
         {
-            var suggestions = new TaskSuggester().SuggestTasks();
-            foreach (var suggestion in suggestions)
-            {
-                foreach (var task in suggestion.Value)
-                {
-                    var x = task;
-                    var y = "";
-                }
-            }
+            _clickSuggestTaskBtn.ShowPopup();
+        }
+        [RelayCommand]
+        public void UpdateEvent(EventModel eventModel)
+        {
+            EventService.Instance.UpdateEvent(eventModel);
+        }
+
+        [RelayCommand]
+        public async void Refresh()
+        {
+            // need to implement yet
         }
     }
 }

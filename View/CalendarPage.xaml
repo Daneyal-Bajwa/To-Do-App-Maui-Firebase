@@ -13,6 +13,7 @@
         <ScrollView>
             <Grid>
                 <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="15" />
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
@@ -42,35 +43,45 @@
 
                     
                     Grid.Row="1"
+                    Grid.Column="1"
                     Grid.ColumnSpan="2">
 
                     <cal:Calendar.EventTemplate>
                         <DataTemplate>
-                            <Frame ZIndex="1" Padding="25,0,0,0" Margin="2" HasShadow="True" BackgroundColor="Transparent" CornerRadius="28">
-                                <StackLayout>
-                                    <Label
-                                        Text="{Binding Name}"
-                                        FontAttributes="Bold"
-                                        FontSize="Medium"
-                                        TextColor="{StaticResource Header2}" />
-                                    <Label
-                                        Text="{Binding Description}"
-                                        FontSize="Small"
-                                        TextColor="{StaticResource Text}"
-                            LineBreakMode="WordWrap" />
-                                    <BoxView HeightRequest="1.5" BackgroundColor="{StaticResource Header}" HorizontalOptions="FillAndExpand" Margin="0,10,0,10"/>
-                                    <StackLayout.GestureRecognizers>
-                                        <!-- need this fancy binding because we are inside the context of a data template -->
-                                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewModel:CalendarViewModel}}, Path=EventPressedCommand}"
-                                                      CommandParameter="{Binding .}"/>
-                                    </StackLayout.GestureRecognizers>
-                                </StackLayout>
-                            </Frame>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
 
+                                <CheckBox Grid.Column="0" IsChecked="{Binding IsCompleted}"
+                                    Color="{StaticResource Accent}" Margin="0,0,0,20" CheckedChanged="CheckBox_CheckedChanged" />
+
+                                <Frame Grid.Column="1" ZIndex="1" Padding="10,0,0,0" Margin="2" HasShadow="True" BackgroundColor="Transparent" CornerRadius="28">
+                                    <StackLayout>
+                                        <Label
+                                            Text="{Binding Name}"
+                                            FontAttributes="Bold"
+                                            FontSize="Medium"
+                                            TextColor="{StaticResource Header2}" />
+                                        <Label
+                                            Text="{Binding Description}"
+                                            FontSize="Small"
+                                            TextColor="{StaticResource Text}"
+                                            LineBreakMode="WordWrap" />
+                                            <BoxView HeightRequest="1.5" BackgroundColor="{StaticResource Header}" HorizontalOptions="FillAndExpand" Margin="0,10,0,10"/>
+                                        <StackLayout.GestureRecognizers>
+                                            <!-- need this fancy binding because we are inside the context of a data template -->
+                                            <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewModel:CalendarViewModel}}, Path=EventPressedCommand}"
+                                                      CommandParameter="{Binding .}"/>
+                                        </StackLayout.GestureRecognizers>
+                                    </StackLayout>
+                                </Frame>
+                            </Grid>
                         </DataTemplate>
                     </cal:Calendar.EventTemplate>
                 </cal:Calendar>
-                <Button Grid.Row="0" Grid.Column="1" Padding="10,5" Margin="10,10,20,0" 
+                <Button Grid.Row="0" Grid.Column="2" Padding="10,5" Margin="10,10,20,0" 
                         HeightRequest="52"
                         Text="Add Task"
                         Style="{StaticResource Button}"

@@ -11,9 +11,9 @@ namespace MauiApp1.Scripts
     {
         public Dictionary<DateTime, List<EventModel>> existingTasks => EventService.Instance.EventsDict;
 
-        public Dictionary<DateTime, List<EventModel>> SuggestTasks(int numberOfSuggestions = 5)
+        public List<EventModel> SuggestTasks(int numberOfSuggestions = 5)
         {
-            var suggestions = new Dictionary<DateTime, List<EventModel>>();
+            var suggestions = new List<EventModel>();
             if (existingTasks == null || existingTasks.Count == 0)
             {
                 // no existing tasks, no suggestions
@@ -52,12 +52,8 @@ namespace MauiApp1.Scripts
                     suggestedDate = lastTaskDate.Add(averageTaskFrequency.Multiply(i+1));
 
                 EventModel suggestedTask = new EventModel(suggestedName, suggestedDescription, suggestedDate);
-
-                if (!suggestions.ContainsKey(suggestedDate))
-                {
-                    suggestions[suggestedDate] = new List<EventModel>();
-                }
-                suggestions[suggestedDate].Add(suggestedTask);
+                if (!suggestions.Contains(suggestedTask))
+                    suggestions.Add(suggestedTask);
             }
 
             return suggestions;
@@ -73,7 +69,9 @@ namespace MauiApp1.Scripts
             List<TimeSpan> timeSpans = new List<TimeSpan>();
             for (int i = 1; i < taskDateTimes.Count; i++)
             {
-                timeSpans.Add(taskDateTimes[i] - taskDateTimes[i - 1]);
+                // avoid extreme date differences e.g. birthdays years from now
+                if (taskDateTimes[i] - taskDateTimes[i-1] < TimeSpan.FromDays(367))
+                    timeSpans.Add(taskDateTimes[i] - taskDateTimes[i - 1]);
             }
 
             return TimeSpan.FromTicks((long)timeSpans.Average(ts => ts.Ticks));
@@ -90,6 +88,8 @@ namespace MauiApp1.Scripts
                 { "walk", TimeSpan.FromDays(2) },
                 { "bi-weekly", TimeSpan.FromDays(14) },
                 { "biweekly", TimeSpan.FromDays(14) },
+                { "call", TimeSpan.FromDays(28) },
+                { "assignment", TimeSpan.FromDays(7) },
             };
             foreach (KeyValuePair<string, TimeSpan> word in timeSpans)
             {

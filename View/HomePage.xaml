@@ -9,61 +9,69 @@
     <ContentPage.BindingContext>
         <viewModel:HomeViewModel />
     </ContentPage.BindingContext>
-    
+
     <!-- Main Content -->
     <ContentView>
-        <VerticalStackLayout>
-            <!-- content -->
+        <ScrollView>
             <VerticalStackLayout>
-                <Image Source="appicon.png" BackgroundColor="Transparent" />
-                <Button Text="Add" Command="{Binding AddCommand}" TextColor="Black" BackgroundColor="Purple" />
-                <CollectionView>
-                    <CollectionView.ItemsSource>
-                        <x:Array Type="{x:Type model:Monkey}">
-                            <model:Monkey Name="Baboon" Image="https://raw.githubusercontent.com/jamesmontemagno/app-monkeys/master/baboon.jpg" Location="Africa and Asia" />
-                            <model:Monkey Name="Capuchin Monkey" Image="https://raw.githubusercontent.com/jamesmontemagno/app-monkeys/master/capuchin.jpg" Location="Central and South America" />
-                            <model:Monkey Name="Red-shanked douc" Image="https://raw.githubusercontent.com/jamesmontemagno/app-monkeys/master/douc.jpg" Location="Vietnam" />
-                        </x:Array>
-                    </CollectionView.ItemsSource>
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate x:DataType="model:Monkey">
-                            <VerticalStackLayout Padding="4">
-                                <HorizontalStackLayout Spacing="10">
-                                    <Image Source="{Binding Image}" HeightRequest="100" Aspect="AspectFill" />
-                                    <Label VerticalOptions="Center" TextColor="Black">
-                                        <Label.Text>
-                                            <MultiBinding StringFormat="{}{0} | {1}">
-                                                <Binding Path="Name" />
-                                                <Binding Path="Location" />
-                                            </MultiBinding>
-                                        </Label.Text>
-                                    </Label>
-                                </HorizontalStackLayout>
-                            </VerticalStackLayout>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
-                <CollectionView ItemsSource="{Binding Items}">
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate x:DataType="{x:Type x:String}">
-                            <SwipeView>
-                                <SwipeView.RightItems>
-                                    <SwipeItems>
-                                        <SwipeItem Text="Delete" BackgroundColor="PaleGreen" Command="{Binding Source={RelativeSource AncestorType={x:Type viewModel:HomeViewModel}}, Path=DeleteCommand}" CommandParameter="{Binding .}" />
-                                    </SwipeItems>
-                                </SwipeView.RightItems>
+                <!-- content -->
+                <VerticalStackLayout Margin="15">
+                    <CollectionView>
+                        <CollectionView.ItemsSource>
+                            <x:Array Type="{x:Type model:Monkey}">
+                                <model:Monkey Name="Drink water" Image="water.png" Location="2.7-3.7 litres a day" />
+                                <model:Monkey Name="Aerobic exercise" Image="walking.png" Location="2.5 hours a week" />
+                                <model:Monkey Name="Resistance training" Image="exercise.png" Location="1.5 hours a week" />
+                            </x:Array>
+                        </CollectionView.ItemsSource>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="model:Monkey">
                                 <VerticalStackLayout Padding="4">
-                                    <Frame>
-                                        <Label Text="{Binding .}" FontSize="24" />
-                                    </Frame>
+                                    <HorizontalStackLayout Spacing="20">
+                                        <Frame BorderColor="{StaticResource PrimaryDark}" Padding="0" HasShadow="True">
+                                            <Image Source="{Binding Image}" HeightRequest="100" Aspect="AspectFill" />
+                                        </Frame>
+                                        <Label VerticalOptions="Center" TextColor="{StaticResource Header}" FontAttributes="Bold" FontSize="Medium">
+                                            <Label.Text>
+                                                <MultiBinding StringFormat="{}{0} | {1}">
+                                                    <Binding Path="Name" />
+                                                    <Binding Path="Location" />
+                                                </MultiBinding>
+                                            </Label.Text>
+                                        </Label>
+                                    </HorizontalStackLayout>
                                 </VerticalStackLayout>
-                            </SwipeView>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
-                <Entry Text="{Binding Text}" Background="Blue" />
-            </VerticalStackLayout>
-        </VerticalStackLayout>
-    </ContentView>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
 
+
+                    <HorizontalStackLayout Margin="0,17" Spacing="20">
+                        <Entry Text="{Binding Text}" Background="{StaticResource Accent}" Placeholder="Add something inspirational!" WidthRequest="250" HorizontalOptions="StartAndExpand" />
+                        <Button Text="Add" Command="{Binding AddCommand}" Style="{StaticResource Button}" WidthRequest="80" TextColor="{StaticResource Primary}" BackgroundColor="{StaticResource DarkBackground}" />
+                    </HorizontalStackLayout>
+
+
+                    <CollectionView ItemsSource="{Binding Items}">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="{x:Type x:String}">
+                                <SwipeView>
+                                    <SwipeView.RightItems>
+                                        <SwipeItems>
+                                            <SwipeItem Text="Delete" BackgroundColor="PaleGreen" Command="{Binding Source={RelativeSource AncestorType={x:Type viewModel:HomeViewModel}}, Path=DeleteCommand}" CommandParameter="{Binding .}" />
+                                        </SwipeItems>
+                                    </SwipeView.RightItems>
+                                    <VerticalStackLayout Padding="4">
+                                        <Frame BackgroundColor="Transparent" Padding="0" HorizontalOptions="Start">
+                                            <Label Text="{Binding .}" Padding="15" FontSize="17" MaximumWidthRequest="5000" BackgroundColor="{StaticResource Accent2}" />
+                                        </Frame>
+                                    </VerticalStackLayout>
+                                </SwipeView>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+        </ScrollView>
+    </ContentView>
 </ContentPage>

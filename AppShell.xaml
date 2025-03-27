@@ -44,19 +44,19 @@
             ContentTemplate="{DataTemplate local:View.HomePage}"
             Route="HomePage" />
     </FlyoutItem>
-    <FlyoutItem Title="Calendar" Icon="calendar.png">
-        <ShellContent
-            Shell.NavBarIsVisible="False"
-            Title="Calendar"
-            ContentTemplate="{DataTemplate local:View.CalendarPage}"
-            Route="CalendarPage" />
-    </FlyoutItem>
     <FlyoutItem Title="Details" Icon="tasks.png">
         <ShellContent
             Shell.NavBarIsVisible="False"
             Title="Details"
             ContentTemplate="{DataTemplate local:View.DetailsPage}"
             Route="DetailsPage" />
+    </FlyoutItem>
+    <FlyoutItem Title="Calendar" Icon="calendar.png">
+        <ShellContent
+            Shell.NavBarIsVisible="False"
+            Title="Calendar"
+            ContentTemplate="{DataTemplate local:View.CalendarPage}"
+            Route="CalendarPage" />
     </FlyoutItem>
     <FlyoutItem Title="Reminders" Icon="tasks.png">
         <ShellContent

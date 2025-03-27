@@ -8,53 +8,80 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static MauiApp1.Model.ReminderOptionsModel;
 
 namespace MauiApp1.Scripts
 {
     public partial class ClickEventBtn : ObservableObject
     {
-
         public EventCollection Events => EventService.Instance.Events;
 
+        [ObservableProperty] private List<ReminderOptions> _options = new List<ReminderOptions>();
+        [ObservableProperty] private bool _isCheckBoxEnabled;
+
         private PopupPage popupPage;
-        [ObservableProperty] public EventModel currSelectedEvent;
-        private EventModel tempItem;
+        private EventModel _currSelectedEvent;
+
+        // hard copy of event, stores details in case the user decides to cancel editing
+        [ObservableProperty] EventModel _tempItem;
+
         public void ShowPopup(ref EventModel e)
         {
+            IsCheckBoxEnabled = true;
+            if (e.ReminderOption == ReminderOptions.None)
+            {
+                IsCheckBoxEnabled = false;
+            }
+            Options = new ReminderOptionsModel().GetReminderOptions();
             popupPage = new PopupPage();
             // pointer to the currently selected event item
-            CurrSelectedEvent = e;
-            // hard copy of item, stores details in case the user decides to cancel editing
-            tempItem = new EventModel(e.Name, e.Description, e.DateTime);
+            _currSelectedEvent = e;
+
+
+            TempItem = new EventModel(e.Name, e.Description, e.DateTime);
+            TempItem.ReminderOption = e.ReminderOption;
+
+
             popupPage.BindingContext = this; // Set the BindingContext
             Application.Current.MainPage.ShowPopup(popupPage);
         }
 
         [RelayCommand]
         // need to delete item from the list
-        public void Delete(EventModel task)
+        public void Delete()
         {
-            EventService.Instance.DeleteEvent(task);
+            EventService.Instance.DeleteEvent(_currSelectedEvent);
             popupPage.Close();
         }
 
-        // rather than saving upon pressing "Save", we instead undo the changes upon pressing "Cancel(or equivalent)"
-        // this is to work around the gimmick of Binding and Observable Properties
         [RelayCommand]
         public void Close()
         {
-            CurrSelectedEvent.Name = tempItem.Name;
-            CurrSelectedEvent.Description = tempItem.Description;
-            CurrSelectedEvent.DateTime = tempItem.DateTime;
             popupPage.Close();
         }
 
-        // due to binding, data is already saved as the user inputs it
-        // so don't need to do anything
+        // update the current event with the details of the temporary item we created
         [RelayCommand]
-        public void Save(EventModel task)
+        public void Save()
         {
+
+            _currSelectedEvent.Name = TempItem.Name;
+            _currSelectedEvent.Description = TempItem.Description;
+            _currSelectedEvent.DateTime = TempItem.DateTime;
+            // if the user unchecked the check box, taht means they do not want a reminder
+            if (!IsCheckBoxEnabled)
+                _currSelectedEvent.ReminderOption = ReminderOptions.None;
+            else
+                _currSelectedEvent.ReminderOption = TempItem.ReminderOption;
+
+            EventService.Instance.UpdateEvent(_currSelectedEvent);
             popupPage.Close();
+        }
+
+        [RelayCommand]
+        public void ReminderChosen(ReminderOptions reminderOption)
+        {
+            TempItem.ReminderOption = reminderOption;
         }
     }
 }

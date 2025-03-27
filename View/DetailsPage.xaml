@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"             
              xmlns:viewModel="clr-namespace:MauiApp1.ViewModel"
              xmlns:model="clr-namespace:MauiApp1.Model"
+             xmlns:converters="clr-namespace:MauiApp1.Converters"
              x:Class="MauiApp1.View.DetailsPage"
              x:DataType="viewModel:DetailsViewModel"
              xmlns:cal="clr-namespace:Plugin.Maui.Calendar.Controls;assembly=Plugin.Maui.Calendar"
@@ -14,30 +15,42 @@
 
     <ContentPage.Resources>
         <ResourceDictionary>
+            <converters:DateTimeToFormattedStringConverter x:Key="DateTimeToFormattedStringConverter" />
 
             <DataTemplate x:Key="ValuesTemplate">
-                <StackLayout>
-                    <Label Text="{Binding Name}" 
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <CheckBox Grid.Column="0" IsChecked="{Binding IsCompleted}" 
+                              CheckedChanged="CheckBox_CheckedChanged"
+                              Color="{StaticResource Accent}" Margin="0,0,0,20"/>
+
+                    <StackLayout Grid.Column="1">
+                        <Label Text="{Binding Name}" 
                             FontSize="Small"
-                           FontAttributes="Bold"
+                            FontAttributes="Bold"
                             TextColor="{StaticResource Header2}"/>
-                    <Label Text="{Binding Description}" 
+                        <Label Text="{Binding Description}" 
                             FontSize="Small"
                             TextColor="{StaticResource Text}"
                             LineBreakMode="WordWrap" />
-                    <StackLayout.GestureRecognizers>
-                        <!-- need this fancy binding because we are inside the context of a data template -->
-                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewModel:DetailsViewModel}}, Path=EventPressedCommand}"
+                        <StackLayout.GestureRecognizers>
+                            <!-- need this fancy binding because we are inside the context of a data template -->
+                            <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewModel:DetailsViewModel}}, Path=EventPressedCommand}"
                                                       CommandParameter="{Binding .}"/>
-                    </StackLayout.GestureRecognizers>
-                </StackLayout>
+                        </StackLayout.GestureRecognizers>
+                    </StackLayout>
+                </Grid>
             </DataTemplate>
 
             <DataTemplate x:Key="DictionaryTemplate">
                 <StackLayout>
                     <!-- Display DateTime Key -->
                     <Label FontAttributes="Bold"
-                           Text="{Binding Key, StringFormat='{}{0:MMMM dd}'}"
+                           Text="{Binding Key, Converter={StaticResource DateTimeToFormattedStringConverter}}"
                             FontSize="Medium"
                             TextColor="{StaticResource Header}"/>
 
@@ -54,43 +67,55 @@
     <ContentView>
         <ScrollView>
             <VerticalStackLayout>
-                <Button Padding="10,5" Margin="10,10,20,0" 
+
+
+                <HorizontalStackLayout FlowDirection="RightToLeft">
+                    <Button Padding="5,10" Margin="20,10,10,0" 
                     HeightRequest="52"
                     WidthRequest="81.5"
                     HorizontalOptions="EndAndExpand"
                     Text="Add Task" 
                     Style="{StaticResource Button}"
                     Command="{Binding AddTaskCommand}">
-                    <VisualStateManager.VisualStateGroups>
-                        <VisualStateGroup x:Name="CommonStates">
-                            <VisualState x:Name="Normal">
-                                <VisualState.Setters>
-                                    <Setter Property="BackgroundColor" Value="{StaticResource Accent}" />
-                                </VisualState.Setters>
-                                <VisualState.StateTriggers>
-                                    <StateTrigger IsActive="True" />
-                                </VisualState.StateTriggers>
-                            </VisualState>
-                            <VisualState x:Name="Pressed">
-                                <VisualState.Setters>
-                                    <Setter Property="BackgroundColor" Value="{StaticResource PrimaryDark}" />
-                                </VisualState.Setters>
-                            </VisualState>
-                        </VisualStateGroup>
-                    </VisualStateManager.VisualStateGroups>
-                </Button>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal">
+                                    <VisualState.Setters>
+                                        <Setter Property="BackgroundColor" Value="{StaticResource Accent}" />
+                                    </VisualState.Setters>
+                                    <VisualState.StateTriggers>
+                                        <StateTrigger IsActive="True" />
+                                    </VisualState.StateTriggers>
+                                </VisualState>
+                                <VisualState x:Name="Pressed">
+                                    <VisualState.Setters>
+                                        <Setter Property="BackgroundColor" Value="{StaticResource PrimaryDark}" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                    </Button>
 
-                <Button Padding="10,5" Margin="10,10,20,0" 
-                    HeightRequest="52"
-                    WidthRequest="81.5"
-                    HorizontalOptions="EndAndExpand"
-                    Text="Suggest Task" FontAttributes="Bold" 
-                    BorderWidth="1"
-                    BorderColor="{StaticResource Accent2}"
-                    TextColor="{StaticResource DarkBackground}" 
-                    BackgroundColor="{StaticResource Accent}"
-                    Command="{Binding SuggestTasksCommand}">
-                </Button>
+                    <Button 
+                        Padding="10,5" Margin="10,10,20,0" 
+                        HeightRequest="52"
+                        HorizontalOptions="Start"
+                        Text="Suggest Tasks"
+                        Style="{StaticResource Button}"
+                        Command="{Binding SuggestTasksCommand}" />
+
+                    <Button 
+                        Padding="10,5" Margin="40,10,20,0" 
+                        HeightRequest="52"
+                        HorizontalOptions="Start"
+                        Text="Refresh"
+                        Style="{StaticResource Button}"
+                        BackgroundColor="{StaticResource Accent3}"
+                        TextColor="{StaticResource Primary}"
+                        Command="{Binding RefreshCommand}" />
+
+                </HorizontalStackLayout>
+
 
                 <CollectionView Margin="30,0" ItemsSource="{Binding Events, UpdateSourceEventName=EventsUpdated}" 
                       ItemTemplate="{StaticResource DictionaryTemplate}"/>

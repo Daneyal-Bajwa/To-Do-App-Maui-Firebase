@@ -45,7 +45,7 @@ namespace MauiApp1.Services
             string dateTimeString = dateTime.ToString("yyyy-MM-dd");
             return dateTimeString;
         }
-        public async Task LoadDataAsync()
+        private async Task LoadDataAsync()
         {
             /*
             await _firebaseClient
@@ -98,10 +98,10 @@ namespace MauiApp1.Services
         public void SortEvents()
         {
             EventsDict = EventsDict.OrderBy(e => e.Key).ToDictionary(e => e.Key, e => e.Value);
-            //Events.Clear();
+            Events.Clear();
             foreach (var item in EventsDict)
             {
-                //Events[item.Key] = item.Value;
+                Events[item.Key] = item.Value;
             }
         }
 
@@ -130,25 +130,15 @@ namespace MauiApp1.Services
                 Add(dateKey, new List<EventModel> { eventModel });
             }
         }
-        /*
-        public void UpdateEvents(EventModel eventModel)
+        
+        public void UpdateEvent(EventModel eventModel)
         {
-            // dont need to implement as binding takes care of it
-
             if (Events.ContainsKey(eventModel.DateTime))
             {
-                    var eventList = Events[eventModel.DateTime];
-                    var existingEvent = eventList.Find(e => e.ID == eventModel.ID);
-                    if (existingEvent != null)
-                    {
-                        existingEvent.Name = eventModel.Name;
-                        existingEvent.Description = eventModel.Description;
-                        existingEvent.DateTime = eventModel.DateTime;
-                    }
-                    
+                Add(EncodeDateTime(eventModel.DateTime), (List<EventModel>)Events[eventModel.DateTime]);                   
             }
         }
-*/
+
         public void DeleteEvent(EventModel eventModel)
         {
             if (Events.ContainsKey(eventModel.DateTime.Date))
@@ -170,12 +160,13 @@ namespace MauiApp1.Services
                 if (!removed) return;
                 // remove the tasks of the right day (cant remove just one task unfortunately)
                 Events.Remove(eventModel.DateTime);
-                EventsDict[eventModel.DateTime] = x;
+                EventsDict.Remove(eventModel.DateTime);
                 // add the new modified list of tasks on the right day
                 string dateKey = EncodeDateTime(eventModel.DateTime);
                 if (x.Count > 0)
                 {
                     Events.Add(eventModel.DateTime, x);
+                    EventsDict[eventModel.DateTime] = x;
 
                     Add(dateKey, x);
                 }
@@ -190,7 +181,7 @@ namespace MauiApp1.Services
             }
         }
 
-        public async Task Add(string dateKey, List<EventModel> eventModels)
+        private async Task Add(string dateKey, List<EventModel> eventModels)
         {
             await _firebaseClient
                 .Child($"Event Collection")

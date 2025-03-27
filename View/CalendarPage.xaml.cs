@@ -12,4 +12,15 @@ public partial class CalendarPage : ContentPage
         // crashes the app
         // if (Calendar != null) Calendar.Dispose();
     }
+    private void CheckBox_CheckedChanged(object sender, CheckedChangedEventArgs e)
+    {
+        if (sender is CheckBox checkBox && checkBox.BindingContext is EventModel eventModel)
+        {
+            var viewModel = BindingContext as DetailsViewModel;
+            if (viewModel != null)
+            {
+                viewModel.UpdateEventCommand.Execute(eventModel);
+            }
+        }
+    }
 }

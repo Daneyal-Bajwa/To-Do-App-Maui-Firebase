@@ -19,6 +19,7 @@ namespace MauiApp1.ViewModel
         // not necessary logically, but program doesn't run without it
         [ObservableProperty] private string _name;
         [ObservableProperty] private string _description;
+        [ObservableProperty] private string _isCompleted;
 
         private readonly ClickEventBtn _clickEventBtn;
         private readonly CreateEventBtn _createEventBtn;
@@ -40,6 +41,11 @@ namespace MauiApp1.ViewModel
         public void AddTask()
         {
             _createEventBtn.ShowPopup();
+        }
+        [RelayCommand]
+        public void UpdateEvent(EventModel eventModel)
+        {
+            EventService.Instance.UpdateEvent(eventModel);
         }
     }
 }

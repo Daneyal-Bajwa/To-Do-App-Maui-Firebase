@@ -19,70 +19,68 @@
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-            <Entry 
-                Grid.Row="0"
-                Grid.Column="0"
-                Placeholder="Name (Required)"
-                Text="{Binding TempItem.Name}"
-                BackgroundColor="Transparent"
-                FontSize="30"
-                Margin="10"
-                VerticalOptions="Start" 
-                HorizontalOptions="Start"
-                FontAttributes="Bold" 
-                TextColor="{StaticResource HeaderAlt}"/>
-            <ImageButton
-                Grid.Row="0"
-                Grid.Column="1"
-                HorizontalOptions="End"
-                BackgroundColor="Transparent"
-                Source="cross.png"
-                HeightRequest="50"
-                WidthRequest="50"
-                Margin="0,0,10,0"
-                Command="{Binding SimpleCloseCommand}" />
-
-            <HorizontalStackLayout Grid.Row="1" Grid.ColumnSpan="2" Margin="10">
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Entry 
+                    Grid.Column="0"
+                    Placeholder="Name (Required)"
+                    Text="{Binding TempItem.Name}"
+                    BackgroundColor="Transparent"
+                    FontSize="30"
+                    Margin="10"
+                    VerticalOptions="Start" 
+                    HorizontalOptions="Start"
+                    FontAttributes="Bold" 
+                    TextColor="{StaticResource HeaderAlt}"/>
+                <ImageButton
+                    Grid.Column="1"
+                    HorizontalOptions="End"
+                    BackgroundColor="Transparent"
+                    Source="cross.png"
+                    HeightRequest="50"
+                    WidthRequest="50"
+                    Margin="0,0,10,0"
+                    Command="{Binding SimpleCloseCommand}" />
+            </Grid>
+            <HorizontalStackLayout Grid.Row="1" Margin="10">
                 <DatePicker Date="{Binding TempItem.DateTime}" Format="dd/MM/yy" TextColor="{StaticResource HeaderAlt}" />
                 <TimePicker Time="{Binding TempItem.DateTime.TimeOfDay}" TextColor="{StaticResource HeaderAlt}" />
             </HorizontalStackLayout>
 
-            <HorizontalStackLayout Grid.Row="2" Grid.ColumnSpan="2">
-                <Label Text="Repeating" Margin="20,10,10,10" FontAttributes="Bold" TextColor="{StaticResource Header2}" />
+            <HorizontalStackLayout Grid.Row="2">
+                <Label Style="{StaticResource MediumLabel}" Text="Repeating" Margin="20,10,10,10" FontAttributes="Bold" TextColor="{StaticResource Header2}" />
                 <CheckBox IsChecked="{Binding IsDropdownVisible}" />
-                <ScrollView IsVisible="{Binding IsDropdownVisible}">
+                <ScrollView IsVisible="True">
                     <!-- <Frame HasShadow="True" BorderColor="Gray" Padding="0" IsVisible="{Binding IsDropdownVisible}"> -->
                     <CollectionView ItemsSource="{Binding Options}" SelectionMode="Single">
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
                                 <StackLayout>
-                                    <Button Text="Select"  />
+                                    <Button Text="{Binding .}"  />
                                 </StackLayout>
                             </DataTemplate>
                         </CollectionView.ItemTemplate>
                     </CollectionView>
-
                 </ScrollView>
             </HorizontalStackLayout>
 
-            <Label Grid.Row="3" Grid.ColumnSpan="2" Text="Description" Margin="20,10,10,10" FontAttributes="Bold" TextColor="{StaticResource Header2}" />
+            <Label Grid.Row="3" Style="{StaticResource MediumLabel}" Text="Description" Margin="20,10,10,10" FontAttributes="Bold" TextColor="{StaticResource Header2}" />
 
-            <ScrollView Grid.Row="4" Grid.ColumnSpan="2" Padding="4" VerticalOptions="StartAndExpand">
+            <ScrollView Grid.Row="4" Padding="4" VerticalOptions="StartAndExpand">
                 <Editor 
-                        InputTransparent="False" 
-                        Placeholder="Description" 
-                        Text="{Binding TempItem.Description}" 
-                        VerticalOptions="Center" 
-                        TextColor="{StaticResource Text}"
-                        Margin="10,0,0,0"
-                        BackgroundColor="Transparent" />
+                    InputTransparent="False" 
+                    Placeholder="Description" 
+                    Text="{Binding TempItem.Description}" 
+                    VerticalOptions="Center" 
+                    TextColor="{StaticResource Text}"
+                    Margin="10,0,0,0"
+                    BackgroundColor="Transparent" />
             </ScrollView>
 
-            <Grid Grid.Row="5" Grid.ColumnSpan="2">
+            <Grid Grid.Row="5">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />

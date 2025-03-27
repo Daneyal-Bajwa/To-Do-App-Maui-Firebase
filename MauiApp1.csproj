@@ -59,6 +59,7 @@
 	<ItemGroup>
 	  <Compile Remove="Model\EventModelStr.cs" />
 	  <Compile Remove="Services\AddTaskPress.cs" />
+	  <Compile Remove="ViewModel\MonkeyDetailsViewModel.cs" />
 	  <Compile Remove="View\SignUppage - Copy.xaml.cs" />
 	</ItemGroup>
 
@@ -110,6 +111,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="View\SignUpPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="View\SuggestiveTasksPopUpPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>
