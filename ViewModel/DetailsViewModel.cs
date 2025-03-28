@@ -2,13 +2,13 @@
 using Firebase.Database;
 using MauiApp1.Scripts;
 using MauiApp1.Services;
-using MauiApp1.View;
 using Plugin.Maui.Calendar.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 
 namespace MauiApp1.ViewModel
 {
@@ -31,10 +31,20 @@ namespace MauiApp1.ViewModel
 
         public DetailsViewModel()
         {
-
             _createEventBtn = new CreateEventBtn();
             _clickEventBtn = new ClickEventBtn();
             _clickSuggestTaskBtn = new ClickSuggestTasksBtn();
+
+            List<EventModel> sendToReminder = new List<EventModel>();
+            foreach (var item in Events)
+            {
+                foreach (EventModel eventModel in item.Value)
+                {
+                    sendToReminder.Add(eventModel);
+                }
+            }
+            ReminderService reminderService = new ReminderService();
+            reminderService.SetAlerts(sendToReminder);
         }
 
         [RelayCommand]
@@ -62,7 +72,7 @@ namespace MauiApp1.ViewModel
         [RelayCommand]
         public void UpdateEvent(EventModel eventModel)
         {
-            EventService.Instance.UpdateEvent(eventModel);
+            EventService.Instance.UpdateEvent(ref eventModel);
         }
 
         [RelayCommand]

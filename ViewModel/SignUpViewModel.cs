@@ -12,7 +12,7 @@ namespace MauiApp1.ViewModel
 {
     public partial class SignUpViewModel : ViewModelBase
     {
-        public FirebaseAuthClient _firebaseAuthClient => AuthConnection.Instance.firebaseAuthClient;
+        public static FirebaseAuthClient firebaseAuthClient => AuthConnection.Instance.firebaseAuthClient;
 
         [ObservableProperty] private SignUpModel _signUpModel = new();
         public SignUpViewModel()
@@ -29,7 +29,7 @@ namespace MauiApp1.ViewModel
             }
             try
             {
-                var signUpResult = await _firebaseAuthClient.CreateUserWithEmailAndPasswordAsync(SignUpModel.Email, SignUpModel.Password, SignUpModel.Username);
+                var signUpResult = await firebaseAuthClient.CreateUserWithEmailAndPasswordAsync(SignUpModel.Email, SignUpModel.Password, SignUpModel.Username);
                 if (!string.IsNullOrWhiteSpace(signUpResult?.User?.Info?.Email))
                 {
                     // Set the UserEmail property
@@ -74,7 +74,7 @@ namespace MauiApp1.ViewModel
         }
 
         [RelayCommand]
-        private async Task NavigateToLogin()
+        private static async Task NavigateToLogin()
         {
             Application.Current.MainPage = new LoginPage();
         }

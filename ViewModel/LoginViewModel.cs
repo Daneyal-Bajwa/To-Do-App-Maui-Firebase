@@ -69,7 +69,7 @@ namespace MauiApp1.ViewModel
             }
             catch (Exception ex)
             {
-                await Application.Current.MainPage.DisplayAlert("Login failed", "Invalid email or password.", "Okay");
+                await Application.Current.MainPage.DisplayAlert("Login failed", "Yopur login attempt was unsuccessful.", "Okay");
                 //await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "Okay");
             }
         }

@@ -11,6 +11,7 @@ namespace MauiApp1.Model
         public enum ReminderOptions
         {
             None,
+            OnTime,
             [Description("One hour before")]
             OneHourBefore,
             [Description("Two hours before")]

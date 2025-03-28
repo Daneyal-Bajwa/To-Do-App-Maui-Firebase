@@ -80,6 +80,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="View\AlertPopupPage.xaml.cs">
+	    <DependentUpon>AlertPopupPage.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="View\PopupPage.xaml.cs">
 	    <DependentUpon>PopupPage.xaml</DependentUpon>
 	  </Compile>
@@ -104,10 +107,10 @@
 	  <MauiXaml Update="View\LoginPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="View\PopupPage.xaml">
+	  <MauiXaml Update="View\AlertPopupPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="View\RemindersPage.xaml">
+	  <MauiXaml Update="View\PopupPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="View\SignUpPage.xaml">

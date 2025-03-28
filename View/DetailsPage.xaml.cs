@@ -23,7 +23,19 @@ public partial class DetailsPage : ContentPage
             var viewModel = BindingContext as DetailsViewModel;
             if (viewModel != null)
             {
-                viewModel.UpdateEventCommand.Execute(eventModel);
+                viewModel.UpdateEvent(eventModel);
+            }
+        }
+    }
+
+    private void OnEventTapped(object sender, EventArgs e)
+    {
+        if (sender is Element element && element.BindingContext is EventModel eventModel)
+        {
+            var viewModel = BindingContext as DetailsViewModel;
+            if (viewModel != null)
+            {
+                viewModel.EventPressed(eventModel);
             }
         }
     }

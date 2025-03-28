@@ -45,7 +45,7 @@ namespace MauiApp1.ViewModel
         [RelayCommand]
         public void UpdateEvent(EventModel eventModel)
         {
-            EventService.Instance.UpdateEvent(eventModel);
+            EventService.Instance.UpdateEvent(ref eventModel);
         }
     }
 }

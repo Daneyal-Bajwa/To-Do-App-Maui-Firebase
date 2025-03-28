@@ -12,7 +12,7 @@
 
 
     <VerticalStackLayout Padding="30,0" VerticalOptions="Center">
-        <Frame Padding="30,70" Margin="30" WidthRequest="400" BorderColor="{StaticResource SecondaryDark}" BackgroundColor="{StaticResource Medium}">
+        <Frame Padding="30,70" Margin="30" WidthRequest="400" BorderColor="{StaticResource SecondaryDark}" BackgroundColor="{StaticResource MediumLight}">
 
             <VerticalStackLayout BackgroundColor="Transparent" Spacing="25">
 
@@ -81,6 +81,7 @@
                 WidthRequest="100"
                 CornerRadius="8"
                 FontAttributes="Bold"
+                BorderColor="{StaticResource HeaderAlt}"
                 Background="{StaticResource Accent2}" />
         </HorizontalStackLayout>
 

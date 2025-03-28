@@ -21,8 +21,6 @@ namespace MauiApp1.Services
         private static string _userService => UserService.UserID;
 
         public EventCollection Events { get; set; }
-        // to allow sorting of Events
-        public Dictionary<DateTime, List<EventModel>> EventsDict = new Dictionary<DateTime, List<EventModel>>();
 
 
         private EventService()
@@ -33,14 +31,14 @@ namespace MauiApp1.Services
             LoadDataAsync();
         }
 
-        private DateTime DecodeDateTime(string dateTimeString)
+        private static DateTime DecodeDateTime(string dateTimeString)
         {
             string format = "yyyy-MM-dd";
             DateTime dateTime = DateTime.ParseExact(dateTimeString, format, System.Globalization.CultureInfo.InvariantCulture);
 
             return dateTime;
         }
-        private string EncodeDateTime(DateTime dateTime)
+        private static string EncodeDateTime(DateTime dateTime)
         {
             string dateTimeString = dateTime.ToString("yyyy-MM-dd");
             return dateTimeString;
@@ -89,7 +87,6 @@ namespace MauiApp1.Services
                         }
                         */
                         Events[dateKey] = item.Object;
-                        EventsDict[dateKey] = item.Object;
                     }
                 }
             });
@@ -97,17 +94,13 @@ namespace MauiApp1.Services
         }
         public void SortEvents()
         {
-            EventsDict = EventsDict.OrderBy(e => e.Key).ToDictionary(e => e.Key, e => e.Value);
+            var orderedEvents = Events.OrderBy(e => e.Key).ToList();
+
             Events.Clear();
-            foreach (var item in EventsDict)
+            foreach (var item in orderedEvents)
             {
                 Events[item.Key] = item.Value;
             }
-        }
-
-        public void SetEvents(EventCollection events)
-        {
-            Events = events;
         }
 
         public void AddEvent(EventModel eventModel)
@@ -119,23 +112,37 @@ namespace MauiApp1.Services
                 x.Add(eventModel);
                 Events.Remove(eventModel.DateTime);
                 Events.Add(eventModel.DateTime, x);
-                EventsDict[eventModel.DateTime] = x;
                 string dateKey = eventModel.DateTime.ToString("yyyy-MM-dd");
                 Add(dateKey, x);
             }
             else
             {
-                Events[eventModel.DateTime] = EventsDict[eventModel.DateTime] = new List<EventModel> { eventModel };
+                Events[eventModel.DateTime] = new List<EventModel> { eventModel };
                 string dateKey = eventModel.DateTime.ToString("yyyy-MM-dd");
                 Add(dateKey, new List<EventModel> { eventModel });
             }
         }
         
-        public void UpdateEvent(EventModel eventModel)
+        public void UpdateEvent(ref EventModel eventModel)
         {
             if (Events.ContainsKey(eventModel.DateTime.Date))
             {
-                Add(EncodeDateTime(eventModel.DateTime), (List<EventModel>)Events[eventModel.DateTime]);                   
+                List<EventModel> x = (List<EventModel>)Events[eventModel.DateTime.Date];
+                foreach (EventModel item in x)
+                {
+                    if (item.ID == eventModel.ID)
+                    {
+                        item.Name = eventModel.Name;
+                        item.Description = eventModel.Description;
+                        item.DateTime = eventModel.DateTime;
+                        item.ReminderOption = eventModel.ReminderOption;
+                        item.IsCompleted = eventModel.IsCompleted;
+
+                        break;
+                    }
+                }
+                Events[eventModel.DateTime.Date] = x;
+                Add(EncodeDateTime(eventModel.DateTime), x);                   
             }
         }
 
@@ -156,17 +163,15 @@ namespace MauiApp1.Services
                         break;
                     }
                 }
-                // prevent feedback loop between realtime db and this
+                // prevent feedback loop between db and this
                 if (!removed) return;
                 // remove the tasks of the right day (cant remove just one task unfortunately)
                 Events.Remove(eventModel.DateTime);
-                EventsDict.Remove(eventModel.DateTime);
                 // add the new modified list of tasks on the right day
                 string dateKey = EncodeDateTime(eventModel.DateTime);
                 if (x.Count > 0)
                 {
                     Events.Add(eventModel.DateTime, x);
-                    EventsDict[eventModel.DateTime] = x;
 
                     Add(dateKey, x);
                 }
@@ -181,7 +186,7 @@ namespace MauiApp1.Services
             }
         }
 
-        private async Task Add(string dateKey, List<EventModel> eventModels)
+        private async static Task Add(string dateKey, List<EventModel> eventModels)
         {
             await _firebaseClient
                 .Child($"Event Collection")

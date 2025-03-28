@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Timers;
 using static MauiApp1.Model.ReminderOptionsModel;
 
 namespace MauiApp1.Model
@@ -20,7 +19,8 @@ namespace MauiApp1.Model
 
         public bool IsCompleted { get; set; }
 
-        private System.Timers.Timer _timer;
+        public DateTime AlertTime { get; private set; }
+
         private ReminderOptions _reminderOption;
         public ReminderOptions ReminderOption
         {
@@ -31,50 +31,25 @@ namespace MauiApp1.Model
                 switch (value)
                 {
                     case ReminderOptions.None:
-                        alertTime = DateTime.MaxValue; // no alert
+                        AlertTime = DateTime.MaxValue; // no alert
+                        break;
+                    case ReminderOptions.OnTime:
+                        AlertTime = DateTime;
                         break;
                     case ReminderOptions.OneHourBefore:
-                        alertTime = DateTime.AddMilliseconds(5000);
-                        SetAlert();
+                        AlertTime = DateTime.AddHours(-1);
                         break;
                     case ReminderOptions.TwoHoursBefore:
-                        alertTime = DateTime.AddHours(-2);
-                        SetAlert();
+                        AlertTime = DateTime.AddHours(-2);
                         break;
                     case ReminderOptions.OneDayBefore:
-                        alertTime = DateTime.AddDays(-1);
-                        SetAlert();
+                        AlertTime = DateTime.AddDays(-1);
                         break;
                     case ReminderOptions.TwoDaysBefore:
-                        alertTime = DateTime.AddDays(-2);
-                        SetAlert();
+                        AlertTime = DateTime.AddDays(-2);
                         break;
                 }
             }
-        }
-        private DateTime alertTime;
-
-        private void SetAlert()
-        {
-            TimeSpan timeToGo = alertTime - DateTime.Now;
-            if (timeToGo <= TimeSpan.Zero)
-            {
-                // Time has already passed
-                return;
-            }
-
-            _timer = new System.Timers.Timer(timeToGo.TotalMilliseconds);
-            _timer.Elapsed += OnTimedEvent;
-            _timer.AutoReset = false; // Only trigger once
-            _timer.Start();
-        }
-        private async void OnTimedEvent(object sender, ElapsedEventArgs e)
-        {
-            _timer.Stop();
-            _timer.Dispose();
-
-            // Display the alert
-            await Application.Current.MainPage.DisplayAlert("Reminder", $"It's time for {this.Name}!", "Okay");
         }
 
         public EventModel(string Name, string Description, DateTime dateTime)

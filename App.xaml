@@ -9,7 +9,9 @@
             <Color x:Key="Secondary">#D2B5C9</Color>
             <Color x:Key="PrimaryDark">#915f6d</Color>
             <Color x:Key="SecondaryDark">#421B2E</Color>
-            <Color x:Key="Medium">#AE8794</Color>
+            <Color x:Key="MediumDark">#996A78</Color>
+            <Color x:Key="Medium">#9F7380</Color>
+            <Color x:Key="MediumLight">#AD8592</Color>
             <Color x:Key="Accent">#EAAEBD</Color>
             <Color x:Key="Accent2">#B783A7</Color>
             <Color x:Key="Accent3">#7F3358</Color>
@@ -34,7 +36,6 @@
             </Style>
 
             <Style TargetType="Label" x:Key="BaseLabel">
-                <Setter Property="FontFamily" Value="OpenSansRegular" />
                 <Setter Property="TextColor" Value="#1F1F1F" />
             </Style>
 
@@ -48,6 +49,7 @@
 
             <Style x:Key="MediumLabel" BasedOn="{StaticResource BaseLabel}" TargetType="Label">
                 <Setter Property="FontSize" Value="16"/>
+                <Setter Property="FontAttributes" Value="Bold"/>
             </Style>
 
             <Style x:Key="LargeLabel" BasedOn="{StaticResource BaseLabel}" TargetType="Label">

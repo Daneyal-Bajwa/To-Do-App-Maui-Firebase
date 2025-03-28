@@ -58,13 +58,6 @@
             ContentTemplate="{DataTemplate local:View.CalendarPage}"
             Route="CalendarPage" />
     </FlyoutItem>
-    <FlyoutItem Title="Reminders" Icon="tasks.png">
-        <ShellContent
-            Shell.NavBarIsVisible="False"
-            Title="Details"
-            ContentTemplate="{DataTemplate local:View.RemindersPage}"
-            Route="DetailsPage" />
-    </FlyoutItem>
     <FlyoutItem Title="Account" Icon="calendar.png">
         <ShellContent
             Shell.NavBarIsVisible="False"

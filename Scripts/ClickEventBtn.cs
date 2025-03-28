@@ -76,7 +76,9 @@ namespace MauiApp1.Scripts
             else
                 _currSelectedEvent.ReminderOption = TempItem.ReminderOption;
 
-            EventService.Instance.UpdateEvent(_currSelectedEvent);
+            ReminderService reminderService = new ReminderService();
+            reminderService.SetAlert(_currSelectedEvent);
+            EventService.Instance.UpdateEvent(ref _currSelectedEvent);
             popupPage.Close();
         }
 

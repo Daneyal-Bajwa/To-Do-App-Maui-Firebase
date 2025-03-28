@@ -1,4 +1,5 @@
 ﻿using MauiApp1.Services;
+using Plugin.Maui.Calendar.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,11 +10,14 @@ namespace MauiApp1.Scripts
 {
     public class TaskSuggester
     {
-        public Dictionary<DateTime, List<EventModel>> existingTasks => EventService.Instance.EventsDict;
+        public static EventCollection Events => EventService.Instance.Events;
 
         public List<EventModel> SuggestTasks(int numberOfSuggestions = 5)
         {
-            var suggestions = new List<EventModel>();
+            EventService.Instance.SortEvents();
+            var existingTasks = Events;
+
+            List<EventModel> suggestions = new List<EventModel>();
             if (existingTasks == null || existingTasks.Count == 0)
             {
                 // no existing tasks, no suggestions
@@ -31,9 +35,9 @@ namespace MauiApp1.Scripts
             Random random = new Random();
             List<EventModel> existingTaskslist = new List<EventModel>();
             // get all tasks in one big list
-            foreach (KeyValuePair<DateTime, List<EventModel>> items in existingTasks)
+            foreach (var items in existingTasks)
             {
-                existingTaskslist.AddRange(items.Value);
+                existingTaskslist.AddRange((IEnumerable<EventModel>)items.Value);
             }
 
 
@@ -59,7 +63,7 @@ namespace MauiApp1.Scripts
             return suggestions;
         }
 
-        private TimeSpan CalculateAverageTaskFrequency(List<DateTime> taskDateTimes)
+        private static TimeSpan CalculateAverageTaskFrequency(List<DateTime> taskDateTimes)
         {
             if (taskDateTimes == null || taskDateTimes.Count < 2)
             {
@@ -77,7 +81,7 @@ namespace MauiApp1.Scripts
             return TimeSpan.FromTicks((long)timeSpans.Average(ts => ts.Ticks));
         }
 
-        private DateTime WordsTimeSpan(string text, DateTime dateTime)
+        private static DateTime WordsTimeSpan(string text, DateTime dateTime)
         {
             Dictionary<string, TimeSpan> timeSpans = new Dictionary<string, TimeSpan>
             {
@@ -90,6 +94,9 @@ namespace MauiApp1.Scripts
                 { "biweekly", TimeSpan.FromDays(14) },
                 { "call", TimeSpan.FromDays(28) },
                 { "assignment", TimeSpan.FromDays(7) },
+                { "chore", TimeSpan.FromDays(7) },
+                { "work", TimeSpan.FromDays(1) },
+                { "visit", TimeSpan.FromDays(112) }, // 16 weeks/4 months
             };
             foreach (KeyValuePair<string, TimeSpan> word in timeSpans)
             {

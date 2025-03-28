@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mct:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+           xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+           xmlns:model="clr-namespace:MauiApp1.Model"
+           xmlns:scripts="clr-namespace:MauiApp1.Scripts"
+           xmlns:mct="clr-namespace:CommunityToolkit.Maui.Views;assembly=CommunityToolkit.Maui"
+           x:Class="MauiApp1.View.AlertPopupPage"
+           CanBeDismissedByTappingOutsideOfPopup="False"
+           Color="Transparent">
+
+    <Border Padding="0" BackgroundColor="{StaticResource LightBackground}">
+        <Border.StrokeShape>
+            <RoundRectangle CornerRadius="8"/>
+        </Border.StrokeShape>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Entry 
+                    Text="Reminder!"
+                    BackgroundColor="Transparent"
+                    FontSize="30"
+                    Margin="10"
+                    VerticalOptions="Start" 
+                    HorizontalOptions="Start"
+                    FontAttributes="Bold"
+                    TextColor="{StaticResource HeaderAlt}"/>
+                <ImageButton
+                    Grid.Column="1"
+                    HorizontalOptions="End"
+                    BackgroundColor="Transparent"
+                    Source="cross.png"
+                    HeightRequest="50"
+                    WidthRequest="50"
+                    Margin="0,0,10,0"
+                    Command="{Binding CloseCommand}"/>
+            </Grid>
+            
+            <Label Grid.Row="1" Margin="20,10,10,10" Style="{StaticResource MediumLabel}">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="Reminder for the task titled " />
+                        <Span Text="{Binding CurrAlertEM.Name}" FontAttributes="Bold" />
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+            
+            <Label Grid.Row="2" Style="{StaticResource MediumLabel}" Margin="20,10,10,10" FontAttributes="Bold" TextColor="{StaticResource Header2}">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="Due on: " FontAttributes="Bold"  />
+                        <Span Text="{Binding CurrAlertEM.DateTime}" />
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+            
+            <Label Grid.Row="3" Style="{StaticResource MediumLabel}" Margin="20,10,10,10" FontAttributes="Bold" TextColor="{StaticResource Header2}">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="Time left: " FontAttributes="Bold" />
+                        <Span Text="{Binding TimeLeft}" />
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+            <Label Grid.Row="4" Style="{StaticResource MediumLabel}" Text="Description" Margin="20,10,10,10" FontAttributes="Bold" TextColor="{StaticResource Header2}" />
+            <ScrollView Grid.Row="5" Padding="4" VerticalOptions="StartAndExpand">
+                <Label 
+                    InputTransparent="False" 
+                    Text="{Binding CurrAlertEM.Description}" 
+                    VerticalOptions="Center" 
+                    TextColor="{StaticResource Text}"
+                    Margin="20,0,0,0"
+                    LineBreakMode="WordWrap"
+                    BackgroundColor="Transparent" />
+            </ScrollView>
+
+        </Grid>
+    </Border>
+
+</mct:Popup>

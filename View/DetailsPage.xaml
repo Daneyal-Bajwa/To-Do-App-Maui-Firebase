@@ -65,63 +65,80 @@
     </ContentPage.Resources>
 
     <ContentView>
-        <ScrollView>
-            <VerticalStackLayout>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
 
-
-                <HorizontalStackLayout FlowDirection="RightToLeft">
-                    <Button Padding="5,10" Margin="20,10,10,0" 
+            <Grid Grid.Row="0" BackgroundColor="{StaticResource MediumLight}" Padding="0,0,0,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Button 
+                    Grid.Column="2"
+                    Padding="5,10" Margin="10,10,20,0" 
                     HeightRequest="52"
                     WidthRequest="81.5"
                     HorizontalOptions="EndAndExpand"
                     Text="Add Task" 
                     Style="{StaticResource Button}"
                     Command="{Binding AddTaskCommand}">
-                        <VisualStateManager.VisualStateGroups>
-                            <VisualStateGroup x:Name="CommonStates">
-                                <VisualState x:Name="Normal">
-                                    <VisualState.Setters>
-                                        <Setter Property="BackgroundColor" Value="{StaticResource Accent}" />
-                                    </VisualState.Setters>
-                                    <VisualState.StateTriggers>
-                                        <StateTrigger IsActive="True" />
-                                    </VisualState.StateTriggers>
-                                </VisualState>
-                                <VisualState x:Name="Pressed">
-                                    <VisualState.Setters>
-                                        <Setter Property="BackgroundColor" Value="{StaticResource PrimaryDark}" />
-                                    </VisualState.Setters>
-                                </VisualState>
-                            </VisualStateGroup>
-                        </VisualStateManager.VisualStateGroups>
-                    </Button>
+                    <VisualStateManager.VisualStateGroups>
+                        <VisualStateGroup x:Name="CommonStates">
+                            <VisualState x:Name="Normal">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="{StaticResource Accent}" />
+                                </VisualState.Setters>
+                                <VisualState.StateTriggers>
+                                    <StateTrigger IsActive="True" />
+                                </VisualState.StateTriggers>
+                            </VisualState>
+                            <VisualState x:Name="Pressed">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="{StaticResource PrimaryDark}" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateManager.VisualStateGroups>
+                </Button>
 
-                    <Button 
-                        Padding="10,5" Margin="10,10,20,0" 
-                        HeightRequest="52"
-                        HorizontalOptions="Start"
-                        Text="Suggest Tasks"
-                        Style="{StaticResource Button}"
-                        Command="{Binding SuggestTasksCommand}" />
+                <Button 
+                    Grid.Column="1"
+                    Padding="10,5" Margin="20,10,10,0" 
+                    HeightRequest="52"
+                    HorizontalOptions="Start"
+                    Text="Suggest Tasks"
+                    Style="{StaticResource Button}"
+                    Command="{Binding SuggestTasksCommand}" />
 
-                    <Button 
-                        Padding="10,5" Margin="40,10,20,0" 
-                        HeightRequest="52"
-                        HorizontalOptions="Start"
-                        Text="Refresh"
-                        Style="{StaticResource Button}"
-                        BackgroundColor="{StaticResource Accent3}"
-                        TextColor="{StaticResource Primary}"
-                        Command="{Binding RefreshCommand}" 
-                        IsVisible="False"/>
+                <Button 
+                    Padding="10,5" Margin="40,10,20,0" 
+                    HeightRequest="52"
+                    HorizontalOptions="Start"
+                    Text="Refresh"
+                    Style="{StaticResource Button}"
+                    BackgroundColor="{StaticResource Accent3}"
+                    TextColor="{StaticResource Primary}"
+                    Command="{Binding RefreshCommand}" 
+                    IsVisible="False"
+                    IsEnabled="False"/>
 
-                </HorizontalStackLayout>
+                <ScrollView Grid.Column="0" Orientation="Horizontal" IsEnabled="True">
+                    <Label 
+                        Text="Note: This page does not auto-update, and requires re-navigating to it to refresh it" 
+                        TextColor="White" VerticalOptions="Center" FontSize="Small" Margin="0,10,0,0" 
+                        LineBreakMode="WordWrap" />
+                </ScrollView>
 
+            </Grid>
 
-                <CollectionView Margin="30,0" ItemsSource="{Binding Events, UpdateSourceEventName=EventsUpdated}" 
-                      ItemTemplate="{StaticResource DictionaryTemplate}"/>
-
-            </VerticalStackLayout>
-        </ScrollView>
+            <ScrollView Grid.Row="1" Margin="0,0,0,20">
+            <CollectionView Margin="30,0" ItemsSource="{Binding Events, UpdateSourceEventName=EventsUpdated}" 
+                    ItemTemplate="{StaticResource DictionaryTemplate}"/>
+            </ScrollView>
+        </Grid>
     </ContentView>
 </ContentPage>

@@ -41,7 +41,7 @@ namespace MauiApp1.Scripts
         {
             if (TempItem != null && !string.IsNullOrEmpty(TempItem.Name))
             {
-                TempItem.DateTime = DateTime.Today + TempTime;
+                TempItem.DateTime = TempItem.DateTime.Date + TempTime;
                 EventService.Instance.AddEvent(TempItem);
                 addTaskPopupPage.Close();                
             }

@@ -35,9 +35,7 @@ namespace MauiApp1
             builder.Services.AddTransient<AddTaskPopupPage>();
             builder.Services.AddTransient<PopupPage>();
             builder.Services.AddTransient<SuggestiveTasksPopUpPage>();
-
-            builder.Services.AddTransient<RemindersPage>();
-            builder.Services.AddSingleton<RemindersViewModel>();
+            builder.Services.AddTransient<AlertPopupPage>();
 
             builder.Services.AddSingleton<DatabaseConnection>();
             builder.Services.AddSingleton<AuthConnection>();

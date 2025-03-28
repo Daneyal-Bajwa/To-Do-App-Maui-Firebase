@@ -16,10 +16,10 @@ public partial class CalendarPage : ContentPage
     {
         if (sender is CheckBox checkBox && checkBox.BindingContext is EventModel eventModel)
         {
-            var viewModel = BindingContext as DetailsViewModel;
+            var viewModel = BindingContext as CalendarViewModel;
             if (viewModel != null)
             {
-                viewModel.UpdateEventCommand.Execute(eventModel);
+                viewModel.UpdateEvent(eventModel);
             }
         }
     }

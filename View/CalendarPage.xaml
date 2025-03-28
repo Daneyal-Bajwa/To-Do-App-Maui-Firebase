@@ -38,7 +38,7 @@
                     SelectedDateColor="{StaticResource Header}"
                     SelectedDayBackgroundColor="{StaticResource Accent3}"
                     ArrowsFontAttribute="Bold"
-                    ShowYearPicker="False"
+                    ShowYearPicker="True"
                     
 
                     
