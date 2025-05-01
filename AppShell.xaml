@@ -58,12 +58,12 @@
             ContentTemplate="{DataTemplate local:View.CalendarPage}"
             Route="CalendarPage" />
     </FlyoutItem>
-    <FlyoutItem Title="Account" Icon="calendar.png">
+    <FlyoutItem Title="Account" Icon="username.png">
         <ShellContent
             Shell.NavBarIsVisible="False"
-            Title="Calendar"
-            ContentTemplate="{DataTemplate local:View.CalendarPage}"
-            Route="CalendarPage" />
+            Title="Account"
+            ContentTemplate="{DataTemplate local:View.AccountPage}"
+            Route="AccountPage" />
     </FlyoutItem>
 
 
@@ -89,6 +89,13 @@
                 Title="Calendar"
                 ContentTemplate="{DataTemplate local:View.CalendarPage}"
                 Route="CalendarPage" />
+        </Tab>
+        <Tab Title="Account" Icon="username.png" >
+            <ShellContent
+                Shell.NavBarIsVisible="False"
+                Title="Account"
+                ContentTemplate="{DataTemplate local:View.AccountPage}"
+                Route="AccountPage" />
         </Tab>
     </TabBar>
 

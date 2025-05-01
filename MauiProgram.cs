@@ -3,6 +3,7 @@ using Firebase.Database;
 using MauiApp1.Scripts;
 using MauiApp1.Services;
 using MauiApp1.View;
+using Microcharts.Maui;
 using Microsoft.Extensions.Logging;
 
 namespace MauiApp1
@@ -16,6 +17,7 @@ namespace MauiApp1
                 .UseMauiApp<App>()
                 // Initialize the .NET MAUI Community Toolkit by adding the below line of code
                 .UseMauiCommunityToolkit()
+                .UseMicrocharts()
                 // After initializing the .NET MAUI Community Toolkit, optionally add additional fonts
                 .ConfigureFonts(fonts =>
                 {
@@ -48,6 +50,8 @@ namespace MauiApp1
             builder.Services.AddSingleton<SignUpPage>();
             builder.Services.AddSingleton<SignUpViewModel>();
 
+            builder.Services.AddSingleton<AccountPage>();
+            builder.Services.AddSingleton<AccountViewModel>();
 
 
 #if DEBUG

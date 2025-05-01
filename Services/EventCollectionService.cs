@@ -45,13 +45,6 @@ namespace MauiApp1.Services
         }
         private async Task LoadDataAsync()
         {
-            /*
-            await _firebaseClient
-                .Child($"Event Collection")
-                .Child(_userService)
-                .Child("2025-03-26")
-                .PutAsync(new List<EventModel> { new EventModel("Name1", "Description 1", DateTime.Now)});
-            */
             _firebaseClient.Child("Event Collection").Child(_userService).AsObservable<List<EventModel>>().Subscribe((item) =>
             {
 
@@ -67,25 +60,6 @@ namespace MauiApp1.Services
                     if (item.Object != null)
                     {
                         DateTime dateKey = DecodeDateTime(item.Key);
-                        /*
-                        if (item.Object.Count > 1)
-                        {
-                            Events[dateKey] = item.Object;
-                        }
-                        else
-                        {
-                            if (Events.ContainsKey(dateKey))
-                            {
-                                Events.Remove(dateKey);
-                                Events[dateKey] = item.Object;
-
-                            }
-                            else
-                            {
-                                Events[dateKey] = item.Object;
-                            }
-                        }
-                        */
                         Events[dateKey] = item.Object;
                     }
                 }

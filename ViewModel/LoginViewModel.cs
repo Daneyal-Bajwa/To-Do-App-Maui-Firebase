@@ -23,7 +23,7 @@ namespace MauiApp1.ViewModel
         public static async void StartHomePage()
         {
             Application.Current.MainPage = new AppShell();
-            // Ensure PhoneTabs is initialized
+            // Ensure PhoneTabs is initialised
             var phoneTabs = Application.Current.MainPage.FindByName<TabBar>("PhoneTabs");
             if (DeviceInfo.Idiom == DeviceIdiom.Phone && phoneTabs != null)
             {
@@ -69,7 +69,7 @@ namespace MauiApp1.ViewModel
             }
             catch (Exception ex)
             {
-                await Application.Current.MainPage.DisplayAlert("Login failed", "Yopur login attempt was unsuccessful.", "Okay");
+                await Application.Current.MainPage.DisplayAlert("Login failed", "Your login attempt was unsuccessful.", "Okay");
                 //await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "Okay");
             }
         }

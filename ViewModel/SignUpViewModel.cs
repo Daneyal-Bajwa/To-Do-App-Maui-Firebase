@@ -36,7 +36,7 @@ namespace MauiApp1.ViewModel
                     UserService.Initialize(signUpResult.User.Uid);
 
                     Application.Current.MainPage = new AppShell();
-                    // Ensure PhoneTabs is initialized
+                    // Ensure PhoneTabs is initialised
                     var phoneTabs = Application.Current.MainPage.FindByName<TabBar>("PhoneTabs");
                     if (DeviceInfo.Idiom == DeviceIdiom.Phone && phoneTabs != null)
                     {

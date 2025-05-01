@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:microcharts="clr-namespace:Microcharts.Maui;assembly=Microcharts.Maui"
+             xmlns:viewModel="clr-namespace:MauiApp1.ViewModel"
+             x:Class="MauiApp1.View.AccountPage"
+             x:DataType="viewModel:AccountViewModel"
+             Title="AccountPage">
+
+    <ContentPage.BindingContext>
+        <viewModel:AccountViewModel />
+    </ContentPage.BindingContext>
+
+    <StackLayout Padding="20">
+        <!-- Task Statistics -->
+        <Label Style="{StaticResource MediumLabel}" FontSize="Large">
+            <Label.FormattedText>
+                <FormattedString>
+                    <Span Text="Tasks Done: " FontAttributes="Bold"  />
+                    <Span Text="{Binding DoneCount}" />
+                </FormattedString>
+            </Label.FormattedText>
+        </Label>
+        <Label Style="{StaticResource MediumLabel}" FontSize="Large">
+            <Label.FormattedText>
+                <FormattedString>
+                    <Span Text="Tasks Due: " FontAttributes="Bold"  />
+                    <Span Text="{Binding DueCount}" />
+                </FormattedString>
+            </Label.FormattedText>
+        </Label>
+        <Label Style="{StaticResource MediumLabel}" FontSize="Large">
+            <Label.FormattedText>
+                <FormattedString>
+                    <Span Text="Tasks Overdue: " FontAttributes="Bold"  />
+                    <Span Text="{Binding OverdueCount}" />
+                </FormattedString>
+            </Label.FormattedText>
+        </Label>
+
+        <!-- Pie Chart -->
+        <microcharts:ChartView x:Name="TaskPieChart" Chart="{Binding Test}" HeightRequest="200"
+                               BackgroundColor="Transparent" Background="Transparent" />
+
+    </StackLayout>
+</ContentPage>
