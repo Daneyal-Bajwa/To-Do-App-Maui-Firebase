@@ -2,8 +2,9 @@ namespace MauiApp1.View;
 
 public partial class SignUpPage : ContentPage
 {
-	public SignUpPage()
+	public SignUpPage(SignUpViewModel viewModel)
 	{
 		InitializeComponent();
-	}
+        BindingContext = viewModel;
+    }
 }

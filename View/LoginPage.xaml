@@ -6,9 +6,6 @@
              xmlns:behaviors="clr-namespace:MauiApp1.Behaviors"
              x:DataType="viewModel:LoginViewModel"
              Title="LoginPage">
-    <ContentPage.BindingContext>
-        <viewModel:LoginViewModel />
-    </ContentPage.BindingContext>
 
     <VerticalStackLayout Padding="30,0" VerticalOptions="Center">
         <Frame Padding="30,70" Margin="30" WidthRequest="400" BorderColor="{StaticResource SecondaryDark}" BackgroundColor="{StaticResource MediumLight}">

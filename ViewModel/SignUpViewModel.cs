@@ -12,11 +12,13 @@ namespace MauiApp1.ViewModel
 {
     public partial class SignUpViewModel : ViewModelBase
     {
-        public static FirebaseAuthClient firebaseAuthClient => AuthConnection.Instance.firebaseAuthClient;
+        private readonly AuthConnection _authConnection;
+        public FirebaseAuthClient firebaseAuthClient => _authConnection.firebaseAuthClient;
 
         [ObservableProperty] private SignUpModel _signUpModel = new();
-        public SignUpViewModel()
+        public SignUpViewModel(AuthConnection authConnection)
         {
+            _authConnection = authConnection;
             Initialize();
         }
 
@@ -74,9 +76,10 @@ namespace MauiApp1.ViewModel
         }
 
         [RelayCommand]
-        private static async Task NavigateToLogin()
+        private async Task NavigateToLogin()
         {
-            Application.Current.MainPage = new LoginPage();
+            LoginViewModel viewModel = new LoginViewModel(_authConnection);
+            Application.Current.MainPage = new LoginPage(viewModel);
         }
     }
 }

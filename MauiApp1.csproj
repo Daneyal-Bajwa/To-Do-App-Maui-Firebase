@@ -36,6 +36,7 @@
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
 		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
+		<UserSecretsId>1ef7598a-3b57-4125-9859-d9d671a9e5e4</UserSecretsId>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -58,6 +59,7 @@
 
 	<ItemGroup>
 	  <Compile Remove="Model\EventModelStr.cs" />
+	  <Compile Remove="Scripts\DateTimeToFormattedStringConverter.cs" />
 	  <Compile Remove="Services\AddTaskPress.cs" />
 	  <Compile Remove="ViewModel\MonkeyDetailsViewModel.cs" />
 	  <Compile Remove="View\SignUppage - Copy.xaml.cs" />
@@ -73,6 +75,7 @@
 		<PackageReference Include="FirebaseAuthentication.net" Version="4.1.0" />
 		<PackageReference Include="FirebaseDatabase.net" Version="4.2.0" />
 		<PackageReference Include="Microcharts.Maui" Version="1.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="6.0.1" />
 		<PackageReference Include="Microsoft.Maui.Controls" Version="8.0.100" />
 		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="8.0.100" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />

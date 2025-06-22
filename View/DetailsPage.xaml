@@ -15,7 +15,6 @@
 
     <ContentPage.Resources>
         <ResourceDictionary>
-            <converters:DateTimeToFormattedStringConverter x:Key="DateTimeToFormattedStringConverter" />
 
             <DataTemplate x:Key="ValuesTemplate">
                 <Grid>

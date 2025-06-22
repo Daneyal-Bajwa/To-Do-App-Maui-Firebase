@@ -6,10 +6,6 @@
              xmlns:behaviors="clr-namespace:MauiApp1.Behaviors"
              x:DataType="viewModel:SignUpViewModel"
              Title="SignUpPage">
-    <ContentPage.BindingContext>
-        <viewModel:SignUpViewModel />
-    </ContentPage.BindingContext>
-
 
     <VerticalStackLayout Padding="30,0" VerticalOptions="Center">
         <Frame Padding="30,70" Margin="30" WidthRequest="400" BorderColor="{StaticResource SecondaryDark}" BackgroundColor="{StaticResource MediumLight}">

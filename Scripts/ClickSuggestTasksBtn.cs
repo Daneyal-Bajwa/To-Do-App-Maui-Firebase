@@ -19,7 +19,7 @@ namespace MauiApp1.Scripts
         public EventCollection Events => EventService.Instance.Events;
 
         public void ShowPopup()
-        {
+        {            
             Suggestions = new TaskSuggester().SuggestTasks();
 
             popupPage = new SuggestiveTasksPopUpPage();
@@ -45,5 +45,6 @@ namespace MauiApp1.Scripts
             popupPage.BindingContext = this; // Set the BindingContext
             Application.Current.MainPage.ShowPopup(popupPage);
         }
+
     }
 }

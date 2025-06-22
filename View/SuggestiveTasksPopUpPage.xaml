@@ -4,7 +4,7 @@
             xmlns:mct="clr-namespace:CommunityToolkit.Maui.Views;assembly=CommunityToolkit.Maui"
            xmlns:scripts="clr-namespace:MauiApp1.Scripts"
             x:Class="MauiApp1.View.SuggestiveTasksPopUpPage"
-            CanBeDismissedByTappingOutsideOfPopup="True"
+            CanBeDismissedByTappingOutsideOfPopup="False"
            Color="Transparent">
 
     <mct:Popup.Resources>

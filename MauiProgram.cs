@@ -4,6 +4,7 @@ using MauiApp1.Scripts;
 using MauiApp1.Services;
 using MauiApp1.View;
 using Microcharts.Maui;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
 namespace MauiApp1
@@ -24,6 +25,8 @@ namespace MauiApp1
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
+
+            builder.Configuration.AddUserSecrets<MauiApp>();
 
             builder.Services.AddSingleton<HomePage>();
             builder.Services.AddSingleton<HomeViewModel>();

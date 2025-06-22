@@ -11,6 +11,19 @@ namespace MauiApp1.Scripts
     public class TaskSuggester
     {
         public static EventCollection Events => EventService.Instance.Events;
+        private readonly LlamaService _llamaService = new LlamaService();
+
+        public static List<EventModel> preloadedSuggestions = new List<EventModel>();
+        private async void SendPrompt(List<EventModel> tasks)
+        {
+            List<EventModel> suggestions = await _llamaService.GenerateFollowUpsAsync(tasks);
+
+            foreach (EventModel s in suggestions)
+            {
+                Console.WriteLine(s);
+            }
+            preloadedSuggestions.AddRange(suggestions);
+        }
 
         private static readonly Dictionary<string, TimeSpan> timeSpans = new Dictionary<string, TimeSpan>
         {
@@ -29,36 +42,7 @@ namespace MauiApp1.Scripts
             { "visit", TimeSpan.FromDays(112) }, // 16 weeks/4 months
         };
         private static readonly List<string> annualHolidays = new List<string>()
-                { "birthday", "christmas", "easter", "halloween", "hannukah", "independence" };
-        private static readonly Dictionary<string, List<(string, TimeSpan)>> RoutinesDictionary = new Dictionary<string, List<(string, TimeSpan)>>
-        {
-            { "Morning", new List<(string, TimeSpan)>
-                {
-                    ("wake up", TimeSpan.FromMinutes(0)),
-                    ("shower", TimeSpan.FromMinutes(10)),
-                    ("breakfast", TimeSpan.FromMinutes(10)),
-                    ("brush teeth", TimeSpan.FromMinutes(10)),
-                    ("get dressed", TimeSpan.FromMinutes(5))
-                }
-            },
-            { "Assignment", new List<(string, TimeSpan)>
-                {
-                    ("first draft", TimeSpan.FromMinutes(0)),
-                    ("edit the draft", TimeSpan.FromDays(3)),
-                    ("proofread", TimeSpan.FromDays(3)),
-                    ("revise", TimeSpan.FromDays(3)),
-                    ("draft", TimeSpan.FromDays(3))
-                }
-            },
-            { "Cleaning", new List<(string, TimeSpan)>
-                {
-                    ("clean", TimeSpan.FromMinutes(0)),
-                    ("make bed", TimeSpan.FromMinutes(10)),
-                    ("fold clothes", TimeSpan.FromMinutes(10)),
-                    ("draft", TimeSpan.FromMinutes(5))
-                }
-            },
-        };
+                { "birthday", "christmas", "easter", "halloween", "independence" };
 
         public List<EventModel> SuggestTasks(int numberOfSuggestions = 5)
         {
@@ -91,6 +75,9 @@ namespace MauiApp1.Scripts
             // gets tasks which happen together often in a tuple as the key, with their average timespan as the value
             Dictionary<string, (string, TimeSpan)> taskPatterns = AnalyseTaskPatterns(existingTaskslist);
 
+            // tasks for AI
+            List<EventModel> promptList = new List<EventModel>();
+
             // get specified number of tasks
             for (int i = 0; i < numberOfSuggestions; i++)
             {
@@ -99,7 +86,7 @@ namespace MauiApp1.Scripts
 
                 string suggestedName = randomTask.Name;
                 string suggestedDescription = randomTask.Description;
-                DateTime suggestedDate = Keywords(suggestedName + suggestedDescription, randomTask.DateTime);
+                DateTime suggestedDate = TimeKeywords(suggestedName + suggestedDescription, randomTask.DateTime);
 
                 // if the task occurs with another task often, suggest the other task instead with their average time difference
                 if (taskPatterns.TryGetValue(randomTask.Name, out (string, TimeSpan) value))
@@ -107,35 +94,34 @@ namespace MauiApp1.Scripts
                     suggestedName = value.Item1;
                     suggestedDate = randomTask.DateTime.Add(value.Item2);
                 }
-                else
-                {
-                    var inRoutine = CheckRoutines(suggestedName + suggestedDescription, randomTask.DateTime);
-                    if (!inRoutine.Item1.Equals(""))
-                    {
-                        suggestedName = inRoutine.Item1;
-                        suggestedDate = inRoutine.Item2;
-                    }
-                }
 
 
                 // check to see if the task contained any key words, changing its suggested date 
-                // if not, assign a date based on the average frequency of tasks
+                // if not, use LLM to create a follow-up task
+                // else add the task to the list of suggestive tasks
                 if (suggestedDate == randomTask.DateTime)
-                    suggestedDate = randomTask.DateTime.Add(averageTaskFrequency);
+                {
+                    promptList.Add(randomTask);
+                }
+                else {
 
-                EventModel suggestedTask = new EventModel(suggestedName, suggestedDescription, suggestedDate);
-                bool found = false;
-                foreach (var item in suggestions)
-                    if (item.Name.Equals(suggestedTask.Name) && item.DateTime.Equals(suggestedTask.DateTime))
-                    {
-                        found = true;
-                        break;
-                    }
-                // only suggest tasks set in the future and if they haven't already been suggested this time
-                if (!found && suggestedDate >= DateTime.Today)
-                    suggestions.Add(suggestedTask);
+                    EventModel suggestedTask = new EventModel(suggestedName, suggestedDescription, suggestedDate);
+                    bool found = false;
+                    foreach (var item in suggestions)
+                        if (item.Name.Equals(suggestedTask.Name) && item.DateTime.Equals(suggestedTask.DateTime))
+                        {
+                            found = true;
+                            break;
+                        }
+                    // only suggest tasks set in the future and if they haven't already been suggested this time
+                    if (!found && suggestedDate >= DateTime.Today)
+                        suggestions.Add(suggestedTask);
+                }
             }
 
+            SendPrompt(promptList);
+
+            suggestions.AddRange(preloadedSuggestions);
             return suggestions;
         }
 
@@ -157,7 +143,7 @@ namespace MauiApp1.Scripts
             return TimeSpan.FromTicks((long)timeSpans.Average(ts => ts.Ticks));
         }
 
-        private static DateTime Keywords(string text, DateTime dateTime)
+        private static DateTime TimeKeywords(string text, DateTime dateTime)
         {
             foreach (KeyValuePair<string, TimeSpan> word in timeSpans)
             {
@@ -178,22 +164,6 @@ namespace MauiApp1.Scripts
                     return dateTime.AddMonths(1);
             }
             return dateTime;
-        }
-
-        private static (string, DateTime) CheckRoutines(string text, DateTime dateTime)
-        {
-            // iterate through routines, if a key word is found, return the time span of the next event in the routine
-            foreach (var routine in RoutinesDictionary)
-            {
-                for (int i = 0; i < routine.Value.Count - 1; i++)
-                { 
-                    if (text.ToLower().Contains(routine.Value[i].Item1))
-                    {                        
-                        return (routine.Value[i+1].Item1, dateTime.Add(routine.Value[i+1].Item2));
-                    }
-                }
-            }
-            return ("", dateTime);
         }
 
         private static Dictionary<string, (string, TimeSpan)> AnalyseTaskPatterns(List<EventModel> tasks)

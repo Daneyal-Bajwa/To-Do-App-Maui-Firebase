@@ -1,4 +1,6 @@
 namespace MauiApp1.View;
+
+using MauiApp1.Scripts;
 using MauiApp1.ViewModel;
 
 public partial class DetailsPage : ContentPage
@@ -14,7 +16,10 @@ public partial class DetailsPage : ContentPage
         var x = (DetailsViewModel)this.BindingContext;
         x.SortEvents();
         InitializeComponent();
+        var suggestor = new TaskSuggester();
+        suggestor.SuggestTasks();
     }
+
 
     private void CheckBox_CheckedChanged(object sender, CheckedChangedEventArgs e)
     {

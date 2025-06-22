@@ -1,28 +1,25 @@
-﻿What needs to be done.
-1. Database connection
-2. Details page diplaying events
-3. Login page
-4. Suggestive tasks
-5. Make UI look presentable
-5.5. Suggestive tasks popup
-6. Each task has a status ad checkbox 
-7. Alarm page
-- Account stats page
+﻿To use the AI suggestive tasks feature, you must download Ollama.
 
+1. Visit the official Ollama website. 
+2. Download the correct OllamaSetup.exe file for your platform. 
+3. Right-click the downloaded OllamaSetup.exe file and select "Run as administrator".
+   Follow the on-screen instructions to complete the installation. 
+4. Verify installation by opening the Command Prompt and typing ollama --version. 
+5. Run Ollama by running 'ollama run llama3'.
+
+
+
+
+Future functionality:
 - Pomodoro timer thing
 - Repeating tasks
 - Tabbed detailspage depending on status of tasks
 - Logout button
 - JSON that loads in the keywords to match tasks up, categorised Routines, e.g. sports routine
 - Pie chart should only display tasks within a certain window
-- in the tabs in Details page, only load recent tasks (dont want lag from 10 yrs of tasks)
-- Generative AI to suggest future tasks
-- 
+- in the tabs in Details page, only load recent tasks (dont want lag from 10 yrs of tasks) 
 
 
-Cant do yet:
-Refresh details page when events change
-refresh ClickEventBtn popup when Reminder Option is changed
 
-NEXT:
+
 
