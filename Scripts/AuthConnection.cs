@@ -18,7 +18,7 @@ namespace MauiApp1.Scripts
         public AuthConnection(IConfiguration configuration)
         {
             firebaseAuthClient = new FirebaseAuthClient(new FirebaseAuthConfig() { 
-                 ApiKey = configuration["MyApiKey"],
+                 ApiKey = ${{secrets.API_Key}},
                  AuthDomain = "todo-maui-firebase.firebaseapp.com",
                  Providers = [new EmailProvider()]
             });
